@@ -12,12 +12,9 @@ public class Vehicle : MonoBehaviour
     PhotonView pv;
 
     Transform trfm;
-    Rigidbody2D rb;
+    public Rigidbody2D rb;
 
     Vector2 up;
-    //
-    Vector2 previousPosition;
-    public Vector3 velocity;
 
     void Start()
     {

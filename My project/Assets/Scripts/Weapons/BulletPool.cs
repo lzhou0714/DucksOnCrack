@@ -37,7 +37,7 @@ public class BulletPool : MonoBehaviour
         bullet.transform.parent = null;
         bullet.transform.position = position;
         bullet.transform.rotation = rotation;
-        bullet.rigidBody.velocity = (bullet.transform.right * velocity) + vehicle.velocity / Time.deltaTime;
+        bullet.rigidBody.velocity = (bullet.transform.right * velocity) + (Vector3)vehicle.rb.velocity;
         return bullet;
     }
     public void DeleteBullet(Bullet bullet)
