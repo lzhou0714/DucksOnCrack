@@ -76,7 +76,7 @@ public class Gunner : MonoBehaviour
     }
 
     [PunRPC]
-    public void RPC_HandleShooting(Vector3 pos, Quaternion rot)
+    public void RPC_HandleShooting(Vector2 pos, Quaternion rot)
     {
         bulletPool.SpawnBullet(pos, rot, 50f);
     }
