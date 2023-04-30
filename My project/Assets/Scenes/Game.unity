@@ -271,7 +271,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90c1cc2d950792a4491c140073e0212d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 6608467023561049945, guid: d7a66a84c147c844495013970b425d7b, type: 3}
+  car: {fileID: 8743463654498705159, guid: b409821e8b6452644afc9696c93c2c48, type: 3}
+  gun: {fileID: 4480772623023242465, guid: b10d760669380694084425dc37747200, type: 3}
+  vehiclePv: {fileID: 0}
+  gunPv: {fileID: 0}
 --- !u!4 &641206980
 Transform:
   m_ObjectHideFlags: 0

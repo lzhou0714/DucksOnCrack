@@ -60,6 +60,7 @@ public class PlayerController : MonoBehaviour
     public void SetGMStart()
     {
         gm.StartGame();
+        roleSelect.SetActive(false);
     }
 
 }

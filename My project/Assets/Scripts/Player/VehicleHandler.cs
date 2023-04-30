@@ -15,10 +15,12 @@ public class VehicleHandler : MonoBehaviour
         // Disable the non host copy of the vehicle
         if (!PhotonNetwork.IsMasterClient && pv.IsMine)
         {
+            Debug.Log("Not master client, disabling own PhotonView");
             gameObject.SetActive(false);
         }
         if (PhotonNetwork.IsMasterClient && !pv.IsMine)
         {
+            Debug.Log("Is master client, disabling other PhotonView");
             gameObject.SetActive(false);
         }
     }
