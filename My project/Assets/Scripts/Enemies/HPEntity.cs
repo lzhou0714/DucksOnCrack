@@ -5,6 +5,7 @@ using UnityEngine;
 public class HPEntity : MonoBehaviour
 {
     public int HP, maxHP;
+    [SerializeField] bool customDeath;
 
     protected void Start()
     {
@@ -23,6 +24,11 @@ public class HPEntity : MonoBehaviour
         if (HP <= 0)
         {
             Debug.Log("Died");
+        }
+        if (!customDeath)
+        {
+            //INstantiate death FX
+            Destroy(gameObject);
         }
     } 
 

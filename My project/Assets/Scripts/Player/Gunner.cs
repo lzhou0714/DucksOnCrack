@@ -18,7 +18,9 @@ public class Gunner : MonoBehaviour
     // HandleRotation:
     Vector2 mousePosition;
     Vector2 transformPosition;
-        // Shoot:
+    // Shoot:
+    [SerializeField] float fireCooldown = 0.6f;
+    float cd = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -63,15 +65,19 @@ public class Gunner : MonoBehaviour
     }
     private void HandleShooting()
     {
-        if (Input.GetKey(KeyCode.Mouse0))
+        if (cd > 0)
         {
-            photonView.RPC("RPC_HandleShooting", RpcTarget.All, tipTransform.position, transform.rotation);
+            cd -= Time.deltaTime;
+        }
+        if (cd <= 0 && Input.GetKey(KeyCode.Mouse0))
+        {
+            photonView.RPC("RPC_HandleShooting", RpcTarget.AllViaServer, tipTransform.position, transform.rotation);
         }
     }
 
     [PunRPC]
-    public void RPC_HandleShooting(Vector3 pos, Quaternion rot)
+    public void RPC_HandleShooting(Vector2 pos, Quaternion rot)
     {
-        bulletPool.SpawnBullet(pos, rot, 20f);
+        bulletPool.SpawnBullet(pos, rot, 50f);
     }
 }
