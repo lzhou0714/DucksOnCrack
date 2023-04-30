@@ -73,8 +73,8 @@ TrailRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Time: 1
+  m_SortingOrder: -5
+  m_Time: 60
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -104,8 +104,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 0.8117647}
-      key1: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 0.8117647}
+      key0: {r: 0.20754719, g: 0.19114336, b: 0.15761839, a: 0.60784316}
+      key1: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 0.3529412}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -275,17 +275,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8dcb136a07fb254ca9c78cfc8d2abb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 0.4
-  topSpeed: 10
-  turnRate: 0.4
+  defaultAcceleration: 0.6
+  driftAcceleration: 0.35
+  defaultTurnRate: 0.3
+  driftTurnRate: 0.45
   turnSpd: 6
   turnRecalibration: 0.25
-  boostPower: 10
-  defaultDrag: 0.9
-  driftDrag: 0.2
+  boostPower: 20
+  defaultDrag: 2
+  driftDrag: 0.5
   tireTrails:
   - {fileID: 378062272636471010}
   - {fileID: 5821477477503933906}
+  velocityBarTrfm: {fileID: 0}
   rb: {fileID: 3767013116803542339}
   singlePlayerOverride: 0
 --- !u!50 &3767013116803542339
@@ -450,9 +452,9 @@ ParticleSystem:
     enabled: 1
     startLifetime:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 1
-      minScalar: 5
+      minMaxState: 3
+      scalar: 1.4
+      minScalar: 0.6
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -503,9 +505,9 @@ ParticleSystem:
         m_RotationOrder: 4
     startSpeed:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0.1
-      minScalar: 5
+      minMaxState: 3
+      scalar: 4
+      minScalar: 2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -558,7 +560,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.31132078, g: 0.29604843, b: 0.26041296, a: 0.4117647}
+      maxColor: {r: 0.4245283, g: 0.36476162, b: 0.23028658, a: 0.4117647}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -619,9 +621,9 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     startSize:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 4
-      minScalar: 1
+      minMaxState: 3
+      scalar: 5
+      minScalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -672,7 +674,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -725,7 +727,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeZ:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -1202,7 +1204,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 60
+      scalar: 0
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -1254,9 +1256,9 @@ ParticleSystem:
         m_RotationOrder: 4
     rateOverDistance:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0
-      minScalar: 0
+      minMaxState: 3
+      scalar: 5
+      minScalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5116,7 +5118,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 50
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -5220,8 +5222,8 @@ TrailRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Time: 1
+  m_SortingOrder: -5
+  m_Time: 60
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -5251,8 +5253,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 0.8117647}
-      key1: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 0.8117647}
+      key0: {r: 0.20754719, g: 0.19114336, b: 0.15761839, a: 0.60784316}
+      key1: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 0.3529412}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}

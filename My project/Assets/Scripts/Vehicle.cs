@@ -5,10 +5,14 @@ using Photon.Pun;
 
 public class Vehicle : MonoBehaviour
 {
-    [SerializeField] float acceleration, topSpeed, turnRate, turnSpd, turnRecalibration, boostPower, defaultDrag, driftDrag;
-    float currentSpeed, currentTurnRate;
+    [SerializeField] float defaultAcceleration, driftAcceleration;
+    [SerializeField] float defaultTurnRate, driftTurnRate, turnSpd, turnRecalibration;
+    [SerializeField] float boostPower, defaultDrag, driftDrag;
+    float currentSpeed, activeTurnRate, currentAcceleration, currentTurnRate;
     Transform cameraTrfm;
     [SerializeField] TrailRenderer[] tireTrails;
+
+    [SerializeField] Transform velocityBarTrfm;
 
     PhotonView pv;
 
@@ -25,6 +29,9 @@ public class Vehicle : MonoBehaviour
         trfm = transform;
         rb = GetComponent<Rigidbody2D>();
         cameraTrfm = CameraController.cameraTransform;
+        rb.drag = defaultDrag;
+        currentAcceleration = defaultAcceleration;
+        currentTurnRate = defaultTurnRate;
         if (!singlePlayerOverride) { pv = GetComponent<PhotonView>(); }
     }
 
@@ -40,10 +47,14 @@ public class Vehicle : MonoBehaviour
             driving = !driving;
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.W))
         {
-            EnterDrift();
+            Boost();
         }
+
+        //where you want to look/be - where you are
+        //forward = target.position - trfm.position;
+        //trfm.roattion += (forward - trfm.forward) * .1f;
     }
 
     // Update is called once per frame
@@ -60,23 +71,32 @@ public class Vehicle : MonoBehaviour
                 HandleDrifting();
             }
 
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                EnterDrift();
+            }
         }
+
+        velocityBarTrfm.localScale = new Vector3(rb.velocity.magnitude, .3f, 1);
         
     }
 
     void Accelerate()
     {
+        //bool: drifting, braking
+        //not brake -> still drift: entering drift via hand brake... travel at an angle
+
         if (driftLockTimer > 0)
         {
 
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            rb.velocity -= up * acceleration;
+            rb.velocity -= up * currentAcceleration * .5f;
         }
         else
         {
-            rb.velocity += up * acceleration;
+            rb.velocity += up * currentAcceleration;
             currentSpeed = rb.velocity.magnitude;
         }
     }
@@ -85,32 +105,32 @@ public class Vehicle : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
         {
-            if (currentTurnRate < turnSpd)
+            if (activeTurnRate < turnSpd)
             {
-                currentTurnRate += turnRate;
-                if (currentTurnRate > turnSpd) { currentTurnRate = turnSpd; }
+                activeTurnRate += currentTurnRate;
+                if (activeTurnRate > turnSpd) { activeTurnRate = turnSpd; }
             }
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            if (currentTurnRate > -turnSpd)
+            if (activeTurnRate > -turnSpd)
             {
-                currentTurnRate -= turnRate;
-                if (currentTurnRate > turnSpd) { currentTurnRate = turnSpd; }
+                activeTurnRate -= currentTurnRate;
+                if (activeTurnRate > turnSpd) { activeTurnRate = turnSpd; }
             }
         }
 
-        trfm.Rotate(Vector3.forward * currentTurnRate);
+        trfm.Rotate(Vector3.forward * activeTurnRate);
 
-        if (currentTurnRate > 0)
+        if (activeTurnRate > 0)
         {
-            currentTurnRate -= turnRecalibration;
-            if (currentTurnRate < 0) { currentTurnRate = 0; }
+            activeTurnRate -= turnRecalibration;
+            if (activeTurnRate < 0) { activeTurnRate = 0; }
         }
-        if (currentTurnRate < 0)
+        if (activeTurnRate < 0)
         {
-            currentTurnRate += turnRecalibration;
-            if (currentTurnRate > 0) { currentTurnRate = 0; }
+            activeTurnRate += turnRecalibration;
+            if (activeTurnRate > 0) { activeTurnRate = 0; }
         }
     }
 
@@ -137,12 +157,18 @@ public class Vehicle : MonoBehaviour
     int driftLockTimer;
     void EnterDrift()
     {
-        drifting = true;
-        driftLockTimer = 20;
-        tireTrails[0].emitting = true;
-        tireTrails[1].emitting = true;
+        if (driftLockTimer < 1)
+        {
+            drifting = true;
+            tireTrails[0].emitting = true;
+            tireTrails[1].emitting = true;
 
-        rb.drag = driftDrag;
+            rb.drag = driftDrag;
+            currentAcceleration = driftAcceleration;
+            currentTurnRate = driftTurnRate;
+        }
+
+        driftLockTimer = 20;
     }
     void ExitDrift()
     {
@@ -151,5 +177,7 @@ public class Vehicle : MonoBehaviour
         tireTrails[1].emitting = false;
 
         rb.drag = defaultDrag;
+        currentAcceleration = defaultAcceleration;
+        currentTurnRate = defaultTurnRate;
     }
 }
