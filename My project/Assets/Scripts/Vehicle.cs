@@ -5,7 +5,7 @@ using Photon.Pun;
 
 public class Vehicle : MonoBehaviour
 {
-    [SerializeField] float acceleration, topSpeed, turnRate, turnSpd, turnRecalibration, boostPower;
+    [SerializeField] float acceleration, topSpeed, turnRate, turnSpd, turnRecalibration, boostPower, defaultDrag, driftDrag;
     float currentSpeed, currentTurnRate;
     Transform cameraTrfm;
 
@@ -16,12 +16,15 @@ public class Vehicle : MonoBehaviour
 
     Vector2 up;
 
+    [SerializeField] bool singlePlayerOverride;
+    [SerializeField] bool driving, drifting;
+
     void Start()
     {
-        pv = GetComponent<PhotonView>();
         trfm = transform;
         rb = GetComponent<Rigidbody2D>();
         cameraTrfm = CameraController.cameraTransform;
+        if (!singlePlayerOverride) { pv = GetComponent<PhotonView>(); }
     }
 
     private void Update()
@@ -30,14 +33,31 @@ public class Vehicle : MonoBehaviour
         // {
         //     cameraTrfm.position = trfm.position + Vector3.forward * -10;
         // }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            driving = !driving;
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            drifting = true;
+            rb.drag = driftDrag;
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            drifting = false;
+            rb.drag = defaultDrag;
+        }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(Input.GetKey(KeyCode.T))
+        if (driving)
         {
-            if(pv.IsMine)
+            if(singlePlayerOverride || pv.IsMine)
             {
                 up = trfm.up;
 

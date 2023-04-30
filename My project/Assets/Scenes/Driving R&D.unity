@@ -377,9 +377,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3767013116803542365, guid: 10985dba1477031449a58cebd9899b69, type: 3}
+      propertyPath: driftDrag
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3767013116803542365, guid: 10985dba1477031449a58cebd9899b69, type: 3}
       propertyPath: cameraTrfm
       value: 
       objectReference: {fileID: 1912960770}
+    - target: {fileID: 3767013116803542365, guid: 10985dba1477031449a58cebd9899b69, type: 3}
+      propertyPath: defaultDrag
+      value: 0.9
+      objectReference: {fileID: 0}
     - target: {fileID: 3767013116803542366, guid: 10985dba1477031449a58cebd9899b69, type: 3}
       propertyPath: m_Name
       value: Car
