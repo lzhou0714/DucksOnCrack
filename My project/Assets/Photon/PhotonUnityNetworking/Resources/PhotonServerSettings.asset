@@ -42,6 +42,7 @@ MonoBehaviour:
   - RPC_SetMasterRole
   - RPC_SignalStart
   - RPC_ToParent
+  - RPC_HandleShooting
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1
