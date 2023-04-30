@@ -26,10 +26,10 @@ public class Vehicle : MonoBehaviour
 
     private void Update()
     {
-        if(pv.IsMine)
-        {
-            cameraTrfm.position = trfm.position + Vector3.forward * -10;
-        }
+        // if(pv.IsMine)
+        // {
+        //     cameraTrfm.position = trfm.position + Vector3.forward * -10;
+        // }
     }
 
     // Update is called once per frame
