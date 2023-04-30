@@ -41,9 +41,9 @@ public class TurretHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (pv.IsMine)
-        {
-            transform.Rotate(Vector3.forward, Input.GetAxis("Horizontal"));
-        }
+        //if (pv.IsMine)
+        //{
+        //    transform.Rotate(Vector3.forward, Input.GetAxis("Horizontal"));
+        //}
     }
 }

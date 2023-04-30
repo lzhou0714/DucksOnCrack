@@ -11,8 +11,11 @@ public class Gunner : MonoBehaviour
     BulletPool bulletPool;
     GameObject activeBullet;
     Transform tipTransform;
+
+    Transform cameraTrfm;
+
     // Vars:
-        // HandleRotation:
+    // HandleRotation:
     Vector2 mousePosition;
     Vector2 transformPosition;
         // Shoot:
@@ -23,6 +26,9 @@ public class Gunner : MonoBehaviour
         photonView = GetComponent<PhotonView>();
         bulletPool = GetComponentInChildren<BulletPool>();
         tipTransform = transform.GetChild(0);
+
+        cameraTrfm = CameraController.cameraTransform;
+
     }
 
     // Update is called once per frame
@@ -32,6 +38,14 @@ public class Gunner : MonoBehaviour
         {
             HandleRotation();
             HandleShooting();
+        }
+    }
+
+    private void Update()
+    {
+        if (photonView.IsMine)
+        {
+            cameraTrfm.position = transform.position + Vector3.forward * -10;
         }
     }
 

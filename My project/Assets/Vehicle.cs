@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class Vehicle : MonoBehaviour
 {
     [SerializeField] float acceleration, topSpeed, turnRate, turnSpd, turnRecalibration, boostPower;
     float currentSpeed, currentTurnRate;
-    [SerializeField] Transform cameraTrfm;
+    Transform cameraTrfm;
+
+    PhotonView pv;
 
     Transform trfm;
     Rigidbody2D rb;
@@ -15,23 +18,33 @@ public class Vehicle : MonoBehaviour
 
     void Start()
     {
+        pv = GetComponent<PhotonView>();
         trfm = transform;
         rb = GetComponent<Rigidbody2D>();
+        cameraTrfm = CameraController.cameraTransform;
     }
 
     private void Update()
     {
-        cameraTrfm.position = trfm.position + Vector3.forward * -10;
+        if(pv.IsMine)
+        {
+            cameraTrfm.position = trfm.position + Vector3.forward * -10;
+        }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        up = trfm.up;
+        if(Input.GetKey(KeyCode.T))
+        {
+            if(pv.IsMine)
+            {
+                up = trfm.up;
 
-        Accelerate();
-        Steer();
-
+                Accelerate();
+                Steer();
+            }
+        }
         
     }
 
