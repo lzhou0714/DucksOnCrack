@@ -12,6 +12,9 @@ public class Vehicle : MonoBehaviour
     Rigidbody2D rb;
 
     Vector2 up;
+    //
+    Vector2 previousPosition;
+    public Vector3 velocity;
 
     void Start()
     {
@@ -32,7 +35,9 @@ public class Vehicle : MonoBehaviour
         Accelerate();
         Steer();
 
-        
+        //
+        velocity = (Vector2)transform.position - previousPosition;
+        previousPosition = transform.position;
     }
 
     void Accelerate()
