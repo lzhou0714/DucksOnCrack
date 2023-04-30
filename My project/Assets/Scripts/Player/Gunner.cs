@@ -65,7 +65,13 @@ public class Gunner : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Mouse0))
         {
-            bulletPool.SpawnBullet(tipTransform.position, transform.rotation, 20f);
+            photonView.RPC("RPC_HandleShooting", RpcTarget.All, tipTransform.position, transform.rotation);
         }
+    }
+
+    [PunRPC]
+    public void RPC_HandleShooting(Vector3 pos, Quaternion rot)
+    {
+        bulletPool.SpawnBullet(pos, rot, 20f);
     }
 }
