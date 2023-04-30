@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
 
     [SerializeField] GameObject player;
+    [SerializeField] PhotonView vehiclePv;
+    [SerializeField] PhotonView gunPv;
     PlayerController pc;
     PhotonView pv;
 
@@ -64,6 +66,18 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void RPC_SignalStart()
     {
         gameStarted = true;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            // Assign ownership of parts of the car to the other player
+            if (masterRole == 0)  // Host is driver
+            {
+                
+            } 
+            else
+            {
+
+            }
+        }
         Debug.Log("Game Started! Master role: " + masterRole);
     }
 
