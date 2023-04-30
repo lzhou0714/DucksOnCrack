@@ -18,8 +18,8 @@ public class PlayerController : MonoBehaviour
 
     // PhotonView pv;
     GameManager gm;
-    Gunner gun;
-    Driver drive;
+    //Gunner gun;
+    //Driver drive;
 
     [SerializeField] GameObject canvas;
     [SerializeField] GameObject roleSelect;
@@ -27,8 +27,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         // pv = GetComponent<PhotonView>();
-        gun = GetComponent<Gunner>();
-        drive = GetComponent<Driver>();
+        //gun = GetComponent<Gunner>();
+        //drive = GetComponent<Driver>();
         gm = FindObjectOfType<GameManager>();
 
         if (!PhotonNetwork.IsMasterClient)
@@ -40,16 +40,17 @@ public class PlayerController : MonoBehaviour
 
     public void SetRole(int role)
     {
-        if (role == 0)  // Driver
-        {
-            drive.enabled = true;
-            gun.enabled = false;
-        }
-        else  // Gunner
-        {
-            drive.enabled = false;
-            gun.enabled = true;
-        }
+        return;
+        //if (role == 0)  // Driver
+        //{
+        //    drive.enabled = true;
+        //    gun.enabled = false;
+        //}
+        //else  // Gunner
+        //{
+        //    drive.enabled = false;
+        //    gun.enabled = true;
+        //}
     }
 
     public void SetGMRole(int role)
