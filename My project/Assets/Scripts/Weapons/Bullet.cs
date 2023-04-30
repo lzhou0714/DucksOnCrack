@@ -8,8 +8,9 @@ public class Bullet : MonoBehaviour
     public bool isActive = false;
     public Rigidbody2D rigidBody;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        rigidBody = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame

@@ -71,7 +71,8 @@ public class Gunner : MonoBehaviour
         }
         if (cd <= 0 && Input.GetKey(KeyCode.Mouse0))
         {
-            photonView.RPC("RPC_HandleShooting", RpcTarget.AllViaServer, tipTransform.position, transform.rotation);
+            cd = fireCooldown;
+            photonView.RPC("RPC_HandleShooting", RpcTarget.AllViaServer, new Vector2(tipTransform.position.x, tipTransform.position.y), transform.rotation);
         }
     }
 

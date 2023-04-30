@@ -9,7 +9,8 @@ public class BulletPool : MonoBehaviour
     // Refs:
     [SerializeField] GameObject bulletPrefab;
     private List<Bullet> bulletList = new List<Bullet>();
-    private Vehicle vehicle;
+
+    [SerializeField] private Vehicle vehicle;
 
     private void OnEnable()
     {
@@ -18,12 +19,18 @@ public class BulletPool : MonoBehaviour
             InstantiateBullet();
         }
         StartCoroutine(SubtractLifetime());
-        vehicle = transform.root.GetComponent<Vehicle>();
+
+        //vehicle = transform.root.GetComponent<Vehicle>();
     }
 
     // Interface:
     public Bullet SpawnBullet(Vector2 position, Quaternion rotation, float velocity)
     {
+        if (vehicle == null)
+        {
+            vehicle = transform.root.GetComponent<Vehicle>();
+        }
+
         Bullet bullet = bulletList.Find(b => !b.isActive);
         // If pool empty:
         if (bullet == null)
@@ -37,6 +44,10 @@ public class BulletPool : MonoBehaviour
         bullet.transform.parent = null;
         bullet.transform.position = position;
         bullet.transform.rotation = rotation;
+
+        bullet.rigidBody.velocity = bullet.rigidBody.velocity;
+        vehicle.rb.velocity = vehicle.rb.velocity;
+
         bullet.rigidBody.velocity = (bullet.transform.right * velocity) + (Vector3)vehicle.rb.velocity;
         return bullet;
     }

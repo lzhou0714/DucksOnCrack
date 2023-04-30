@@ -103,6 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 7131215522353271551, guid: 7f457f703ac74d44ba94894ca7620c4c, type: 3}
+  vehicle: {fileID: 0}
 --- !u!114 &2513564847255502160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,6 +116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4838819cf02dafc4b83b86641b60b454, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireCooldown: 0.3
 --- !u!1 &5824317622105390373
 GameObject:
   m_ObjectHideFlags: 0
