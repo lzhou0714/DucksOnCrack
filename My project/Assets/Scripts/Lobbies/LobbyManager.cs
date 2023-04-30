@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using TMPro;
+using Photon.Realtime;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] TMP_InputField roomName;
     [SerializeField] GameObject canvas;
 
+    RoomOptions options;
+
     private void Start()
     {
+        options = new RoomOptions();
+        options.MaxPlayers = 2;
     }
 
     public void Join()
@@ -20,7 +25,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public void Create()
     {
-        PhotonNetwork.CreateRoom(roomName.text);
+        PhotonNetwork.CreateRoom(roomName.text, options);
     }
 
     public void Quickplay()
