@@ -51,7 +51,6 @@ public class Gunner : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Mouse0))
         {
-            Debug.Log("hi");
             bulletPool.SpawnBullet(tipTransform.position, transform.rotation, 20f);
         }
     }

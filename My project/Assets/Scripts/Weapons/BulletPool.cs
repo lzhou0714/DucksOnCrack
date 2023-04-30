@@ -40,6 +40,7 @@ public class BulletPool : MonoBehaviour
     }
     public void DeleteBullet(Bullet bullet)
     {
+        bullet.transform.parent = transform;
         bullet.gameObject.SetActive(false);
         bullet.isActive = false;
     }
