@@ -9,6 +9,7 @@ public class BulletPool : MonoBehaviour
     // Refs:
     [SerializeField] GameObject bulletPrefab;
     private List<Bullet> bulletList = new List<Bullet>();
+    private Vehicle vehicle;
 
     private void OnEnable()
     {
@@ -17,6 +18,7 @@ public class BulletPool : MonoBehaviour
             InstantiateBullet();
         }
         StartCoroutine(SubtractLifetime());
+        vehicle = transform.root.GetComponent<Vehicle>();
     }
 
     // Interface:
@@ -35,7 +37,7 @@ public class BulletPool : MonoBehaviour
         bullet.transform.parent = null;
         bullet.transform.position = position;
         bullet.transform.rotation = rotation;
-        bullet.rigidBody.velocity = bullet.transform.right * velocity;
+        bullet.rigidBody.velocity = (bullet.transform.right * velocity) + (Vector3)vehicle.rb.velocity;
         return bullet;
     }
     public void DeleteBullet(Bullet bullet)

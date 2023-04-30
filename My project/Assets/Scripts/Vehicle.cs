@@ -12,7 +12,7 @@ public class Vehicle : MonoBehaviour
     PhotonView pv;
 
     Transform trfm;
-    Rigidbody2D rb;
+    public Rigidbody2D rb;
 
     Vector2 up;
 
@@ -26,10 +26,10 @@ public class Vehicle : MonoBehaviour
 
     private void Update()
     {
-        if(pv.IsMine)
-        {
-            cameraTrfm.position = trfm.position + Vector3.forward * -10;
-        }
+        // if(pv.IsMine)
+        // {
+        //     cameraTrfm.position = trfm.position + Vector3.forward * -10;
+        // }
     }
 
     // Update is called once per frame

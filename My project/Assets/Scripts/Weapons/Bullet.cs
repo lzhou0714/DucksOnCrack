@@ -17,4 +17,13 @@ public class Bullet : MonoBehaviour
     {
         
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        HPEntity hpEntity = collision.gameObject.GetComponent<HPEntity>();
+        if (hpEntity != null )
+        {
+            hpEntity.TakeDamage(2);
+        }
+    }
 }

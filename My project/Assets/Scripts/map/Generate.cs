@@ -23,7 +23,7 @@ public class Generate : MonoBehaviour
         for (int i = 0; i <= number; i++)
         {
             Vector2 position = new Vector2(Random.Range(-5.0f, 5.0f),  Random.Range(-5.0f, 5.0f));
-            PhotonEditor.Instantiate(obstacle, 
+            PhotonNetwork.Instantiate(obstacle.name, 
                 position
                 ,Quaternion.identity);
         }
