@@ -28,9 +28,9 @@ public class VehicleHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (pv.IsMine)
-        {
-            transform.position += new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0) * Time.deltaTime;
-        }
+        //if (pv.IsMine)
+        //{
+        //    transform.position += new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0) * Time.deltaTime;
+        //}
     }
 }
