@@ -8,6 +8,7 @@ public class Vehicle : MonoBehaviour
     [SerializeField] float acceleration, topSpeed, turnRate, turnSpd, turnRecalibration, boostPower, defaultDrag, driftDrag;
     float currentSpeed, currentTurnRate;
     Transform cameraTrfm;
+    [SerializeField] TrailRenderer[] tireTrails;
 
     PhotonView pv;
 
@@ -17,7 +18,7 @@ public class Vehicle : MonoBehaviour
     Vector2 up;
 
     [SerializeField] bool singlePlayerOverride;
-    [SerializeField] bool driving, drifting;
+    bool driving, drifting;
 
     void Start()
     {
@@ -41,14 +42,7 @@ public class Vehicle : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            drifting = true;
-            rb.drag = driftDrag;
-        }
-
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            drifting = false;
-            rb.drag = defaultDrag;
+            EnterDrift();
         }
     }
 
@@ -63,22 +57,27 @@ public class Vehicle : MonoBehaviour
 
                 Accelerate();
                 Steer();
+                HandleDrifting();
             }
+
         }
         
     }
 
     void Accelerate()
     {
-        if (!Input.GetKey(KeyCode.S))
+        if (driftLockTimer > 0)
         {
-            rb.velocity += up * acceleration;
 
-            currentSpeed = rb.velocity.magnitude;
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            rb.velocity -= up * acceleration;
         }
         else
         {
-            rb.velocity -= up * acceleration;
+            rb.velocity += up * acceleration;
+            currentSpeed = rb.velocity.magnitude;
         }
     }
 
@@ -118,5 +117,39 @@ public class Vehicle : MonoBehaviour
     void Boost()
     {
         rb.velocity = up * boostPower;
+    }
+
+    void HandleDrifting()
+    {
+        if (driftLockTimer > 0)
+        {
+            driftLockTimer--;
+        }
+        else if (drifting && !Input.GetKey(KeyCode.LeftShift))
+        {
+            if (Vector2.Angle(rb.velocity, up) < 45)
+            {
+                ExitDrift();
+            }
+        }
+    }
+
+    int driftLockTimer;
+    void EnterDrift()
+    {
+        drifting = true;
+        driftLockTimer = 20;
+        tireTrails[0].emitting = true;
+        tireTrails[1].emitting = true;
+
+        rb.drag = driftDrag;
+    }
+    void ExitDrift()
+    {
+        drifting = false;
+        tireTrails[0].emitting = false;
+        tireTrails[1].emitting = false;
+
+        rb.drag = defaultDrag;
     }
 }
