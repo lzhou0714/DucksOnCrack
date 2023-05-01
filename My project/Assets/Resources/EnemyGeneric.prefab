@@ -94,10 +94,10 @@ GameObject:
   m_Component:
   - component: {fileID: 329925887218056248}
   - component: {fileID: 5663694873304326988}
-  - component: {fileID: 7655558091413886790}
   - component: {fileID: 8207914854845499744}
   - component: {fileID: 3431677473228249960}
   - component: {fileID: 6077915950692054904}
+  - component: {fileID: -6438368125874164026}
   m_Layer: 0
   m_Name: EnemyGeneric
   m_TagString: Untagged
@@ -144,24 +144,6 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &7655558091413886790
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6207844031647637354}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33094ee161e033e428a5070d202c6e7b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HP: 0
-  maxHP: 0
-  customDeath: 0
-  Death:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!50 &8207914854845499744
 Rigidbody2D:
   serializedVersion: 4
@@ -215,3 +197,24 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &-6438368125874164026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6207844031647637354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e12d1e390849d4fa05f597fc1bd2ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 0
+  maxHP: 0
+  customDeath: 0
+  Death:
+    m_PersistentCalls:
+      m_Calls: []
+  moveSpeed: 1.3
+  followRange: 20
+  trackedPlayer: {fileID: 0}
