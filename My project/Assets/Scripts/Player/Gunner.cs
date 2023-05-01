@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
+using static WeaponTypes;
 
 public class Gunner : MonoBehaviour
 {
@@ -28,19 +30,11 @@ public class Gunner : MonoBehaviour
 
     //
     private Transform barrelTransform;
-    [SerializeField] int selectedWeaponIndex;
+    [SerializeField] int selectedWeaponIndex = 0;
     public WEAPONTYPE[] availableWeapons;
     public int[] weaponOverheats;
-    int overHeatTimer = 0;
-    private Transform overheatBarMask;
-    private Transform overheatBar;
+    private WeaponData selectedWeaponData;
 
-
-
-    public enum WEAPONTYPE
-    {
-        NULL = 0, BOW = 5, LEVERACTION = 7, BOLTACTION = 10, ASSAULTRIFLE = 6, SHOTGUN = 10, AKIMBOSMG = 8, LASER = 20
-    }
     // angular velocity
     Quaternion lastRot;
     Vector3 angularVel;
@@ -49,12 +43,9 @@ public class Gunner : MonoBehaviour
     void Start()
     {
         barrelTransform = transform.GetChild(2);
-        overheatBar = transform.GetChild(3);
-        overheatBarMask = overheatBar.GetChild(0);
         availableWeapons = new WEAPONTYPE[] { WEAPONTYPE.BOW, WEAPONTYPE.LEVERACTION, WEAPONTYPE.SHOTGUN, WEAPONTYPE.LASER };
         weaponOverheats = new int[] { 0, 0, 0, 0 };
-        selectedWeaponIndex = 0;
-        barrelTransform.Find(availableWeapons[selectedWeaponIndex].ToString()).gameObject.SetActive(true);
+        UpdateWeapon(0);
 
         //
         photonView = GetComponent<PhotonView>();
@@ -74,19 +65,7 @@ public class Gunner : MonoBehaviour
             HandleRotation();
             HandleShooting();
             HandleWeaponSelect();
-            overheatBar.rotation = Quaternion.identity;
-            overheatBar.transform.position = (Vector2)transform.position + 2 * Vector2.down;
-            overheatBarMask.transform.localScale = Vector2.right * Mathf.Lerp(0, 6, weaponOverheats[selectedWeaponIndex] / 20f) + Vector2.up * 2f;
-            overHeatTimer++;
-            if (overHeatTimer < 15)
-            {
-                return;
-            }
-            overHeatTimer = 0;
-            for (int i = 0; i < 4; i++)
-            {
-                weaponOverheats[i] = Mathf.Max(weaponOverheats[i] - 1, 0);
-            }
+            DecreaseWeaponOverheats();
         }
     }
 
@@ -129,21 +108,46 @@ public class Gunner : MonoBehaviour
         }
         if (cd <= 0 && Input.GetKey(KeyCode.Mouse0))
         {
+            if (CheckWeaponOverheat())
+            {
+                return;
+            }
             cd = fireCooldown;
             if (carRb)
             {
                 vel = carRb.velocity;
             }
-            if (weaponOverheats[selectedWeaponIndex] >= 20)
-            {
-                return;
-            }
             // HENRY: here's the RPC call to shoot, pass in whatever you want to send to server here
-
+            if (selectedWeaponData.bulletAmount == 1)
+            {
+                photonView.RPC("RPC_HandleShooting", RpcTarget.AllViaServer, new Vector2(tipTransform.position.x, tipTransform.position.y), transform.rotation, vel, angularVel, PhotonNetwork.ServerTimestamp);
+            }
+            else
+            {
+                StartCoroutine(ShootMultiple(selectedWeaponData.bulletAmount, vel));
+            }
+            AddWeaponOverheat();
+        }
+    }
+    private IEnumerator ShootMultiple(int bulletAmount, Vector2 vel)
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.1f);
+        if (bulletAmount == 5)
+        {
+            // Shotgun:
+            for (int i = 0; i < 5; i++)
+            {
+                photonView.RPC("RPC_HandleShooting", RpcTarget.AllViaServer, new Vector2(tipTransform.position.x, tipTransform.position.y), transform.rotation, vel, angularVel, PhotonNetwork.ServerTimestamp);
+                yield return delay;
+            }
+            yield break;
+        }
+        if (bulletAmount == 2)
+        {
             photonView.RPC("RPC_HandleShooting", RpcTarget.AllViaServer, new Vector2(tipTransform.position.x, tipTransform.position.y), transform.rotation, vel, angularVel, PhotonNetwork.ServerTimestamp);
-
-            HandleWeaponOverheats();
-
+            yield return delay;
+            yield return delay;
+            photonView.RPC("RPC_HandleShooting", RpcTarget.AllViaServer, new Vector2(tipTransform.position.x, tipTransform.position.y), transform.rotation, vel, angularVel, PhotonNetwork.ServerTimestamp);
         }
     }
     private void HandleWeaponSelect()
@@ -151,49 +155,61 @@ public class Gunner : MonoBehaviour
         if (Input.GetKey(KeyCode.Q)) {
             if (availableWeapons[0] != WEAPONTYPE.NULL)
             {
-                barrelTransform.Find(availableWeapons[selectedWeaponIndex].ToString()).gameObject.SetActive(false);
-                selectedWeaponIndex = 0;
-                barrelTransform.Find(availableWeapons[selectedWeaponIndex].ToString()).gameObject.SetActive(true);
-                gunUI.DisplayUI(availableWeapons[0]);
+                UpdateWeapon(0);
             }
         }
         if (Input.GetKey(KeyCode.W))
         {
             if (availableWeapons[1] != WEAPONTYPE.NULL)
             {
-                barrelTransform.Find(availableWeapons[selectedWeaponIndex].ToString()).gameObject.SetActive(false);
-                selectedWeaponIndex = 1;
-                barrelTransform.Find(availableWeapons[selectedWeaponIndex].ToString()).gameObject.SetActive(true);
-                gunUI.DisplayUI(availableWeapons[1]);
+                UpdateWeapon(1);
             }
         }
         if (Input.GetKey(KeyCode.E))
         {
             if (availableWeapons[2] != WEAPONTYPE.NULL)
             {
-                barrelTransform.Find(availableWeapons[selectedWeaponIndex].ToString()).gameObject.SetActive(false);
-                selectedWeaponIndex = 2;
-                barrelTransform.Find(availableWeapons[selectedWeaponIndex].ToString()).gameObject.SetActive(true);
-                gunUI.DisplayUI(availableWeapons[2]);
+                UpdateWeapon(2);
             }
         }
         if (Input.GetKey(KeyCode.R))
         {
             if (availableWeapons[3] != WEAPONTYPE.NULL)
             {
-                barrelTransform.Find(availableWeapons[selectedWeaponIndex].ToString()).gameObject.SetActive(false);
-                selectedWeaponIndex = 3;
-                barrelTransform.Find(availableWeapons[selectedWeaponIndex].ToString()).gameObject.SetActive(true);
-                gunUI.DisplayUI(availableWeapons[3]);
+                UpdateWeapon(3);
             }   
         }
     }
-    private void HandleWeaponOverheats()
+    private void UpdateWeapon(int index)
     {
-        weaponOverheats[selectedWeaponIndex] += (int)availableWeapons[selectedWeaponIndex];
+        barrelTransform.Find(availableWeapons[selectedWeaponIndex].ToString()).gameObject.SetActive(false);
+        WEAPONTYPE type = availableWeapons[index];
+        selectedWeaponIndex = index;
+        barrelTransform.Find(type.ToString()).gameObject.SetActive(true);
+        selectedWeaponData = WeaponTypes.Instance.GetData(type);
+    }
+    private void AddWeaponOverheat()
+    {
+        weaponOverheats[selectedWeaponIndex] += selectedWeaponData.overheatAddition;
+    }
+    private bool CheckWeaponOverheat()
+    {
+        if (weaponOverheats[selectedWeaponIndex] + selectedWeaponData.overheatAddition > selectedWeaponData.overheatMax)
+        {
+            return true;
+        }
+        return false;
+    }
+    private void DecreaseWeaponOverheats()
+    {
+        GunnerUI.Instance.UpdateOverheatBar(weaponOverheats[selectedWeaponIndex] / selectedWeaponData.overheatMax);
+        for (int i = 0; i < 4; i++)
+        {
+            weaponOverheats[i] = Mathf.Max(weaponOverheats[i] - WeaponTypes.Instance.weaponData[(int)availableWeapons[i]].overheatDecay, 0);
+        }
     }
 
-    public void UpdateWeapons(WEAPONTYPE weapon0 = WEAPONTYPE.NULL, WEAPONTYPE weapon1 = WEAPONTYPE.NULL, WEAPONTYPE weapon2 = WEAPONTYPE.NULL, WEAPONTYPE weapon3 = WEAPONTYPE.NULL)
+    public void ShuffleWeapons(WEAPONTYPE weapon0 = WEAPONTYPE.NULL, WEAPONTYPE weapon1 = WEAPONTYPE.NULL, WEAPONTYPE weapon2 = WEAPONTYPE.NULL, WEAPONTYPE weapon3 = WEAPONTYPE.NULL)
     {
         if (photonView.IsMine)
         {

@@ -2,7 +2,7 @@ using Photon.Pun.Demo.Asteroids;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Gunner;
+using static WeaponTypes;
 
 public class Bullet : MonoBehaviour
 {
@@ -16,6 +16,8 @@ public class Bullet : MonoBehaviour
     public BulletPool bulletPool;
 
     private WEAPONTYPE currentType;
+    private WeaponData currentData;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -37,39 +39,11 @@ public class Bullet : MonoBehaviour
         transform.parent = null;
         currentType = type;
         // Set stats:
-        switch (type)
-        {
-            case WEAPONTYPE.BOW:
-                velocity = 20f;
-                damage = 5;
-                lifetimeTicks = 50;
-                break;
-            case WEAPONTYPE.LEVERACTION:
-                velocity = 40f;
-                damage = 6;
-                lifetimeTicks = 40;
-                break;
-            case WEAPONTYPE.ASSAULTRIFLE:
-                velocity = 30f;
-                damage = 3;
-                lifetimeTicks = 30;
-                break;
-            case WEAPONTYPE.SHOTGUN:
-                velocity = 30f;
-                damage = 10;
-                lifetimeTicks = 15;
-                break;
-            case WEAPONTYPE.AKIMBOSMG:
-                velocity = 40f;
-                damage = 8;
-                lifetimeTicks = 20;
-                break;
-            case WEAPONTYPE.LASER:
-                velocity = 100f;
-                damage = 30;
-                lifetimeTicks = 10;
-                break;
-        }
+        currentData = WeaponTypes.Instance.GetData(type);
+        velocity = currentData.bulletVelocity;
+        damage = currentData.bulletDamage;
+        lifetimeTicks = currentData.bulletLifetime;
+        //
         transform.Find(type.ToString()).gameObject.SetActive(true);
         rigidBody.velocity = transform.right * velocity;
     }
