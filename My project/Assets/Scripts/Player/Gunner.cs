@@ -80,6 +80,7 @@ public class Gunner : MonoBehaviour
             {
                 vel = carRb.velocity;
             }
+            // HENRY: here's the RPC call to shoot, pass in whatever you want to send to server here
             photonView.RPC("RPC_HandleShooting", RpcTarget.AllViaServer, new Vector2(tipTransform.position.x, tipTransform.position.y), transform.rotation, vel, PhotonNetwork.ServerTimestamp);
         }
     }
@@ -87,6 +88,9 @@ public class Gunner : MonoBehaviour
     [PunRPC]
     public void RPC_HandleShooting(Vector2 pos, Quaternion rot, Vector2 origVel, int timeInMillis)
     {
+        // HENRY: So we want the same type of prediction for rotation as we have for position.
+        // Predict the angle of our gun barrel by calculating the angular velocity (or some other smart way)
+
         int deltaTimeInMillis = PhotonNetwork.ServerTimestamp - timeInMillis;
         
         Vector2 delta = origVel * ((float)deltaTimeInMillis / 1000);
