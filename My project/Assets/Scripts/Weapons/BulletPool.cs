@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Gunner;
+using static WeaponTypes;
 
 public class BulletPool : MonoBehaviour
 {
@@ -41,7 +41,10 @@ public class BulletPool : MonoBehaviour
         bullet.transform.position = position;
         bullet.transform.rotation = rotation;
         bullet.Activate(type);
-        bullet.rigidBody.velocity += vehicle.rb.velocity;
+        if (vehicle != null)
+        {
+            bullet.rigidBody.velocity += vehicle.rb.velocity;
+        }
         return bullet;
     }
     public void DeleteBullet(Bullet bullet)

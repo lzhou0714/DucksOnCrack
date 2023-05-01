@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GunnerUI : MonoBehaviour
 {
@@ -10,6 +11,13 @@ public class GunnerUI : MonoBehaviour
     [SerializeField] GameObject assaultUI;
     [SerializeField] GameObject shotgunUI;
 
+    [SerializeField] Image overheatBar;
+
+    public static GunnerUI Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
     public enum Weapon
     {
         Bow,
@@ -19,41 +27,41 @@ public class GunnerUI : MonoBehaviour
         Shotgun,
     }
 
-    public void DisplayUI(Gunner.WEAPONTYPE weapon)
+    public void DisplayUI(WeaponTypes.WEAPONTYPE weapon)
     {
         if (!gameObject.activeSelf)
             return;
         switch (weapon)
         {
-            case Gunner.WEAPONTYPE.BOW:
+            case WeaponTypes.WEAPONTYPE.BOW:
                 bowUI.SetActive(true);
                 sniperUI.SetActive(false);
                 dualSMGUI.SetActive(false);
                 assaultUI.SetActive(false);
                 shotgunUI.SetActive(false);
                 break;
-            case Gunner.WEAPONTYPE.BOLTACTION:
+            case WeaponTypes.WEAPONTYPE.BOLTACTION:
                 bowUI.SetActive(false);
                 sniperUI.SetActive(true);
                 dualSMGUI.SetActive(false);
                 assaultUI.SetActive(false);
                 shotgunUI.SetActive(false);
                 break;
-            case Gunner.WEAPONTYPE.AKIMBOSMG:
+            case WeaponTypes.WEAPONTYPE.AKIMBOSMG:
                 bowUI.SetActive(false);
                 sniperUI.SetActive(false);
                 dualSMGUI.SetActive(true);
                 assaultUI.SetActive(false);
                 shotgunUI.SetActive(false);
                 break;
-            case Gunner.WEAPONTYPE.ASSAULTRIFLE:
+            case WeaponTypes.WEAPONTYPE.ASSAULTRIFLE:
                 bowUI.SetActive(false);
                 sniperUI.SetActive(false);
                 dualSMGUI.SetActive(false);
                 assaultUI.SetActive(true);
                 shotgunUI.SetActive(false);
                 break;
-            case Gunner.WEAPONTYPE.LASER:  // Supposed to be shotgun
+            case WeaponTypes.WEAPONTYPE.SHOTGUN:  // Supposed to be shotgun
                 bowUI.SetActive(false);
                 sniperUI.SetActive(false);
                 dualSMGUI.SetActive(false);
@@ -61,5 +69,10 @@ public class GunnerUI : MonoBehaviour
                 shotgunUI.SetActive(true);
                 break;
         }
+    }
+
+    public void UpdateOverheatBar(float fillAmount)
+    {
+        overheatBar.fillAmount = fillAmount;
     }
 }
