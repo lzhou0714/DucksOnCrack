@@ -9,14 +9,14 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - NA
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Enemy Hurtbox
+  - Player Hurtbox
+  - Enemy Attack
+  - Player Attack
+  - Terrain
   - 
   - 
   - 
