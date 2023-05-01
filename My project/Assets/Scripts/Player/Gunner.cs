@@ -72,13 +72,22 @@ public class Gunner : MonoBehaviour
         if (cd <= 0 && Input.GetKey(KeyCode.Mouse0))
         {
             cd = fireCooldown;
-            photonView.RPC("RPC_HandleShooting", RpcTarget.AllViaServer, new Vector2(tipTransform.position.x, tipTransform.position.y), transform.rotation);
+            photonView.RPC("RPC_HandleShooting", RpcTarget.AllViaServer, new Vector2(tipTransform.position.x, tipTransform.position.y), transform.rotation, PhotonNetwork.ServerTimestamp);
         }
     }
 
     [PunRPC]
-    public void RPC_HandleShooting(Vector2 pos, Quaternion rot)
+    public void RPC_HandleShooting(Vector2 pos, Quaternion rot, int timeInMillis)
     {
-        bulletPool.SpawnBullet(pos, rot, 50f);
+        int deltaTimeInMillis = PhotonNetwork.ServerTimestamp - timeInMillis;
+        Rigidbody2D carRb = transform.parent.GetComponent<Rigidbody2D>();
+        Vector2 delta = Vector2.zero;
+        if (carRb)
+        {
+            float dt = (float)deltaTimeInMillis / 1000;
+            delta = carRb.velocity * dt;
+        }
+
+        bulletPool.SpawnBullet(pos + delta, rot, 50f);
     }
 }

@@ -5055,4 +5055,9 @@ MonoBehaviour:
   turnSpd: 6
   turnRecalibration: 0.25
   boostPower: 10
+  defaultDrag: 0
+  driftDrag: 0
   rb: {fileID: 0}
+  singlePlayerOverride: 0
+  driving: 0
+  drifting: 0
