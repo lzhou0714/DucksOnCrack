@@ -154,6 +154,7 @@ public class Gunner : MonoBehaviour
                 barrelTransform.Find(availableWeapons[selectedWeaponIndex].ToString()).gameObject.SetActive(false);
                 selectedWeaponIndex = 0;
                 barrelTransform.Find(availableWeapons[selectedWeaponIndex].ToString()).gameObject.SetActive(true);
+                gunUI.DisplayUI(availableWeapons[0]);
             }
         }
         if (Input.GetKey(KeyCode.W))
@@ -163,6 +164,7 @@ public class Gunner : MonoBehaviour
                 barrelTransform.Find(availableWeapons[selectedWeaponIndex].ToString()).gameObject.SetActive(false);
                 selectedWeaponIndex = 1;
                 barrelTransform.Find(availableWeapons[selectedWeaponIndex].ToString()).gameObject.SetActive(true);
+                gunUI.DisplayUI(availableWeapons[1]);
             }
         }
         if (Input.GetKey(KeyCode.E))
@@ -172,6 +174,7 @@ public class Gunner : MonoBehaviour
                 barrelTransform.Find(availableWeapons[selectedWeaponIndex].ToString()).gameObject.SetActive(false);
                 selectedWeaponIndex = 2;
                 barrelTransform.Find(availableWeapons[selectedWeaponIndex].ToString()).gameObject.SetActive(true);
+                gunUI.DisplayUI(availableWeapons[2]);
             }
         }
         if (Input.GetKey(KeyCode.R))
@@ -181,12 +184,25 @@ public class Gunner : MonoBehaviour
                 barrelTransform.Find(availableWeapons[selectedWeaponIndex].ToString()).gameObject.SetActive(false);
                 selectedWeaponIndex = 3;
                 barrelTransform.Find(availableWeapons[selectedWeaponIndex].ToString()).gameObject.SetActive(true);
+                gunUI.DisplayUI(availableWeapons[3]);
             }   
         }
     }
     private void HandleWeaponOverheats()
     {
         weaponOverheats[selectedWeaponIndex] += (int)availableWeapons[selectedWeaponIndex];
+    }
+
+    public void UpdateWeapons(WEAPONTYPE weapon0 = WEAPONTYPE.NULL, WEAPONTYPE weapon1 = WEAPONTYPE.NULL, WEAPONTYPE weapon2 = WEAPONTYPE.NULL, WEAPONTYPE weapon3 = WEAPONTYPE.NULL)
+    {
+        if (photonView.IsMine)
+        {
+            WEAPONTYPE w0 = weapon0 == WEAPONTYPE.NULL ? availableWeapons[0] : weapon0;
+            WEAPONTYPE w1 = weapon1 == WEAPONTYPE.NULL ? availableWeapons[1] : weapon1;
+            WEAPONTYPE w2 = weapon2 == WEAPONTYPE.NULL ? availableWeapons[2] : weapon2;
+            WEAPONTYPE w3 = weapon3 == WEAPONTYPE.NULL ? availableWeapons[3] : weapon3;
+            photonView.RPC("RPC_AssignWeapons", RpcTarget.All, w0, w1, w2, w3);
+        }
     }
 
     [PunRPC]
@@ -205,5 +221,14 @@ public class Gunner : MonoBehaviour
         Quaternion deltaRot = Quaternion.Euler(origAngularVel * ((float)deltaTimeInMillis / 1000));
 
         bulletPool.SpawnBullet(availableWeapons[selectedWeaponIndex], pos + delta, rot*deltaRot);
+    }
+
+    [PunRPC]
+    public void RPC_AssignWeapons(WEAPONTYPE weapon0, WEAPONTYPE weapon1, WEAPONTYPE weapon2, WEAPONTYPE weapon3)
+    {
+        availableWeapons[0] = weapon0;
+        availableWeapons[1] = weapon1;
+        availableWeapons[2] = weapon2;
+        availableWeapons[3] = weapon3;
     }
 }
