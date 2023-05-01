@@ -24,6 +24,7 @@ public class PlaceObstacles : MonoBehaviour
         
         // Move this object away
         transform.position += (Vector3) pushDirection.normalized * pushDistance;
+        Debug.Log($"push direction: ({pushDirection.normalized},{pushDistance})");
         if (Mathf.Abs(transform.position.y) > Generate.maxDim ||Mathf.Abs(transform.position.x) > Generate.maxDim)
         {
             pushDirection = -pushDirection;
