@@ -12,6 +12,7 @@ public class Gunner : MonoBehaviour
     GameObject activeBullet;
     Transform tipTransform;
     Rigidbody2D carRb;
+    Rigidbody2D gunRb;
 
     Transform cameraTrfm;
 
@@ -23,12 +24,17 @@ public class Gunner : MonoBehaviour
     [SerializeField] float fireCooldown = 0.6f;
     float cd = 0;
 
+    // angular velocity
+    Quaternion lastRot;
+    Vector3 angularVel;
+
     // Start is called before the first frame update
     void Start()
     {
         photonView = GetComponent<PhotonView>();
         bulletPool = GetComponentInChildren<BulletPool>();
         tipTransform = transform.GetChild(0);
+        gunRb = GetComponent<Rigidbody2D>();
 
         cameraTrfm = CameraController.cameraTransform;
 
@@ -44,14 +50,6 @@ public class Gunner : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (photonView.IsMine)
-        {
-            cameraTrfm.position = transform.position + Vector3.forward * -10;
-        }
-    }
-
     private void HandleRotation()
     {
         // Get positions:
@@ -62,13 +60,29 @@ public class Gunner : MonoBehaviour
         float currentAngle = transform.rotation.eulerAngles.z;
         float offsetAngle = Mathf.DeltaAngle(currentAngle, newAngle);
         // Rotate gun:
+        lastRot = transform.rotation;
+
         transform.rotation = Quaternion.Euler(Vector3.forward * (currentAngle + 0.3f * offsetAngle));
+
+        float dt = Time.deltaTime;
+        Quaternion q1 = lastRot;
+        Quaternion q2 = transform.rotation;
+        angularVel = (2 / dt) * new Vector3(q1[0] * q2[1] - q1[1] * q2[0] - q1[2] * q2[3] + q1[3] * q2[2],
+        q1[0] * q2[2] + q1[1] * q2[3] - q1[2] * q2[0] - q1[3] * q2[1],
+        q1[0] * q2[3] - q1[1] * q2[2] + q1[2] * q2[1] - q1[3] * q2[0]);
+        angularVel = new Vector3(0, 0, angularVel.x);
     }
     private void HandleShooting()
     {
         if (!carRb)
-            carRb = transform.parent.GetComponent<Rigidbody2D>();
+        {
+            if(transform.parent)
+            {
+                carRb = transform.parent.GetComponent<Rigidbody2D>();
+            }
+        }
         Vector2 vel = Vector2.zero;
+
         if (cd > 0)
         {
             cd -= Time.deltaTime;
@@ -80,21 +94,27 @@ public class Gunner : MonoBehaviour
             {
                 vel = carRb.velocity;
             }
+
             // HENRY: here's the RPC call to shoot, pass in whatever you want to send to server here
-            photonView.RPC("RPC_HandleShooting", RpcTarget.AllViaServer, new Vector2(tipTransform.position.x, tipTransform.position.y), transform.rotation, vel, PhotonNetwork.ServerTimestamp);
+            photonView.RPC("RPC_HandleShooting", RpcTarget.AllViaServer, new Vector2(tipTransform.position.x, tipTransform.position.y), transform.rotation, vel, angularVel, PhotonNetwork.ServerTimestamp);
         }
     }
 
     [PunRPC]
-    public void RPC_HandleShooting(Vector2 pos, Quaternion rot, Vector2 origVel, int timeInMillis)
+    public void RPC_HandleShooting(Vector2 pos, Quaternion rot, Vector2 origVel, Vector3 origAngularVel, int timeInMillis)
     {
         // HENRY: So we want the same type of prediction for rotation as we have for position.
         // Predict the angle of our gun barrel by calculating the angular velocity (or some other smart way)
 
         int deltaTimeInMillis = PhotonNetwork.ServerTimestamp - timeInMillis;
-        
-        Vector2 delta = origVel * ((float)deltaTimeInMillis / 1000);
 
-        bulletPool.SpawnBullet(pos + delta, rot, 50f);
+        //Debug.Log(origAngularVel);
+        float angularVelMagnitude = origAngularVel.z;
+        Vector2 angularVelCalibration = -transform.right * angularVelMagnitude * ((float)deltaTimeInMillis / 1000);
+        Vector2 delta = origVel * ((float)deltaTimeInMillis / 1000) + angularVelCalibration;
+
+        Quaternion deltaRot = Quaternion.Euler(origAngularVel * ((float)deltaTimeInMillis / 1000));
+
+        bulletPool.SpawnBullet(pos + delta, rot*deltaRot, 50f);
     }
 }
