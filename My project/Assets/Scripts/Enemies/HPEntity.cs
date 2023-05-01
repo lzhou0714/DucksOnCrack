@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using Photon.Pun;
 
 public class HPEntity : MonoBehaviour
 {
     public int HP, maxHP;
     [SerializeField] bool customDeath;
+    public UnityEvent Death;
 
     protected void Start()
     {
@@ -28,7 +31,9 @@ public class HPEntity : MonoBehaviour
         if (!customDeath)
         {
             //INstantiate death FX
-            Destroy(gameObject);
+            Death.Invoke();
+            PhotonNetwork.Destroy(gameObject);  // This assumes the current object is networked! Otherwise will not work!
+            // Destroy(gameObject);
         }
     } 
 

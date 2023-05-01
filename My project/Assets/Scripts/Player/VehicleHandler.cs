@@ -23,6 +23,11 @@ public class VehicleHandler : MonoBehaviour
             Debug.Log("Is master client, disabling other PhotonView");
             gameObject.SetActive(false);
         }
+
+        if ((PhotonNetwork.IsMasterClient && pv.IsMine) || (!PhotonNetwork.IsMasterClient && !pv.IsMine))
+        {
+            FindObjectOfType<CameraFollow>().AssignTarget(transform);
+        }
     }
 
     // Update is called once per frame

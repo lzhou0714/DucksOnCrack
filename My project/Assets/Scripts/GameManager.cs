@@ -52,6 +52,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+    public bool GameStarted()
+    {
+        return gameStarted;
+    }
+
     public void StartGame()
     {
         pv.RPC("RPC_SignalStart", RpcTarget.All);

@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 243141980}
   - component: {fileID: 243141983}
   - component: {fileID: 243141984}
+  - component: {fileID: 243141985}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -254,6 +255,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8620e0c0b8516467b810efbeeb9c4fb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &243141985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243141979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daef9fcdfd77643ad8f7ee2a3bd6358f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offset: {x: 0, y: 0, z: 0}
+  trackingRate: 0.1
 --- !u!1 &641206978
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,6 +279,7 @@ GameObject:
   m_Component:
   - component: {fileID: 641206980}
   - component: {fileID: 641206979}
+  - component: {fileID: 641206982}
   - component: {fileID: 641206981}
   m_Layer: 0
   m_Name: GameManager
@@ -325,6 +341,19 @@ MonoBehaviour:
   sceneViewId: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &641206982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641206978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 431667b3da236aa4d9358aadb36e9f27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 6207844031647637354, guid: 5ac523b5a08e80e489a1efedfc4d2f30, type: 3}
 --- !u!1 &973807122
 GameObject:
   m_ObjectHideFlags: 0
@@ -1221,6 +1250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4838819cf02dafc4b83b86641b60b454, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireCooldown: 0.6
 --- !u!223 &7915363630616147208
 Canvas:
   m_ObjectHideFlags: 0
