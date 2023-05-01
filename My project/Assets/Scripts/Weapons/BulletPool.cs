@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Gunner;
 
 public class BulletPool : MonoBehaviour
 {
     // Vars:
-    WaitForSeconds delay = new WaitForSeconds(0.2f);
     // Refs:
     [SerializeField] GameObject bulletPrefab;
     private List<Bullet> bulletList = new List<Bullet>();
 
     [SerializeField] private Vehicle vehicle;
+
 
     private void OnEnable()
     {
@@ -18,13 +19,11 @@ public class BulletPool : MonoBehaviour
         {
             InstantiateBullet();
         }
-        StartCoroutine(SubtractLifetime());
-
         //vehicle = transform.root.GetComponent<Vehicle>();
     }
 
     // Interface:
-    public Bullet SpawnBullet(Vector2 position, Quaternion rotation, float velocity)
+    public Bullet SpawnBullet(WEAPONTYPE type, Vector2 position, Quaternion rotation)
     {
         if (vehicle == null)
         {
@@ -38,17 +37,11 @@ public class BulletPool : MonoBehaviour
             bullet = InstantiateBullet();
         }
         // Activate and return:
-        bullet.gameObject.SetActive(true);
-        bullet.isActive = true;
-        bullet.lifetimeTicks = 5;
-        bullet.transform.parent = null;
+        bullet.bulletPool = this;
         bullet.transform.position = position;
         bullet.transform.rotation = rotation;
-
-        bullet.rigidBody.velocity = bullet.rigidBody.velocity;
-        vehicle.rb.velocity = vehicle.rb.velocity;
-
-        bullet.rigidBody.velocity = (bullet.transform.right * velocity) + (Vector3)vehicle.rb.velocity;
+        bullet.Activate(type);
+        bullet.rigidBody.velocity += vehicle.rb.velocity;
         return bullet;
     }
     public void DeleteBullet(Bullet bullet)
@@ -57,7 +50,6 @@ public class BulletPool : MonoBehaviour
         bullet.gameObject.SetActive(false);
         bullet.isActive = false;
     }
-
     // Utils:
     private Bullet InstantiateBullet()
     {
@@ -67,20 +59,5 @@ public class BulletPool : MonoBehaviour
         bullet.transform.parent = transform;
         bulletList.Add(bulletScript);
         return bulletScript;
-    }
-    private IEnumerator SubtractLifetime()
-    {
-        while (true)
-        {
-            foreach (Bullet bullet in bulletList)
-            {
-                bullet.lifetimeTicks--;
-                if (bullet.lifetimeTicks <= 0)
-                {
-                    DeleteBullet(bullet);
-                }
-            }
-            yield return delay;
-        }
     }
 }
