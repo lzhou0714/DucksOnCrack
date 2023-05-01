@@ -69,6 +69,7 @@ public class Gunner : MonoBehaviour
         }
         Vector2 vel = Vector2.zero;
         float angularVel = gunRb.angularVelocity;
+
         if (cd > 0)
         {
             cd -= Time.deltaTime;
@@ -80,6 +81,8 @@ public class Gunner : MonoBehaviour
             {
                 vel = carRb.velocity;
             }
+            angularVel = gunRb.angularVelocity;
+
             // HENRY: here's the RPC call to shoot, pass in whatever you want to send to server here
             photonView.RPC("RPC_HandleShooting", RpcTarget.AllViaServer, new Vector2(tipTransform.position.x, tipTransform.position.y), transform.rotation, vel, angularVel, PhotonNetwork.ServerTimestamp);
         }
@@ -97,6 +100,6 @@ public class Gunner : MonoBehaviour
 
         Quaternion deltaRot = Quaternion.Euler(transform.forward * origAngularVel * ((float)deltaTimeInMillis / 1000));
 
-        bulletPool.SpawnBullet(pos + delta, rot * deltaRot, 50f);
+        bulletPool.SpawnBullet(pos + delta, rot*deltaRot, 50f);
     }
 }
