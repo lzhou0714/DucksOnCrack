@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8636419410075129847}
   - component: {fileID: 2513564847255502160}
   - component: {fileID: 384833603}
-  - component: {fileID: 384833602}
+  - component: {fileID: 896143817682973346}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Untagged
@@ -61,7 +61,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 4480772623023242466}
-  - {fileID: 384833602}
+  - {fileID: 896143817682973346}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -128,7 +128,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4480772623023242465}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -141,7 +141,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &384833602
+--- !u!114 &896143817682973346
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -153,8 +153,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e7cb724808c322458aa4d15f5035fa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 1
+  m_SynchronizeVelocity: 0
+  m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
 --- !u!1 &5824317622105390373
