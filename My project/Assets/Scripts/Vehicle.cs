@@ -77,7 +77,7 @@ public class Vehicle : MonoBehaviour
             }
         }
 
-        velocityBarTrfm.localScale = new Vector3(rb.velocity.magnitude, .3f, 1);
+        //velocityBarTrfm.localScale = new Vector3(rb.velocity.magnitude, .3f, 1);
         
     }
 

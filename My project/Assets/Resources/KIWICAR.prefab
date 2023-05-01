@@ -289,7 +289,7 @@ MonoBehaviour:
   - {fileID: 5821477477503933906}
   velocityBarTrfm: {fileID: 0}
   rb: {fileID: 3767013116803542339}
-  singlePlayerOverride: 0
+  singlePlayerOverride: 1
 --- !u!50 &3767013116803542339
 Rigidbody2D:
   serializedVersion: 4
