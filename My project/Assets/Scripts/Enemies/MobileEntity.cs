@@ -12,11 +12,16 @@ public class MobileEntity : HPEntity
     public GameObject trackedPlayer;
     WaitForSeconds delay = new WaitForSeconds(1);
 
+    protected Transform trfm;
+    protected Rigidbody2D rb;
+
     // Start is called before the first frame update
     protected new void Start()
     {
         base.Start();
         StartCoroutine(DetectPlayer());
+        trfm = transform;
+        rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
