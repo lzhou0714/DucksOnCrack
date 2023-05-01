@@ -17,13 +17,15 @@ public class Generate : MonoBehaviour
     public float numObstacles = 100.0f;
     public float enemiesPerCluster = 20f;
 
-    public static int timer = 5;
+    public static int timer;
 
     private void Start()
     {
         // PlaceObjects();
         // PlaceEnemies();
         PlaceEnemyNormally();
+        
+
     }
 
     private void FixedUpdate()
