@@ -5049,15 +5049,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8dcb136a07fb254ca9c78cfc8d2abb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 0.4
-  topSpeed: 10
-  turnRate: 0.4
+  defaultAcceleration: 0
+  driftAcceleration: 0
+  defaultTurnRate: 0
+  driftTurnRate: 0
   turnSpd: 6
   turnRecalibration: 0.25
   boostPower: 10
   defaultDrag: 0
   driftDrag: 0
+  tireTrails: []
+  velocityBarTrfm: {fileID: 0}
   rb: {fileID: 0}
   singlePlayerOverride: 0
-  driving: 0
-  drifting: 0

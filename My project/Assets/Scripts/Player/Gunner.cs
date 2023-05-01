@@ -11,6 +11,7 @@ public class Gunner : MonoBehaviour
     BulletPool bulletPool;
     GameObject activeBullet;
     Transform tipTransform;
+    Rigidbody2D carRb;
 
     Transform cameraTrfm;
 
@@ -65,6 +66,9 @@ public class Gunner : MonoBehaviour
     }
     private void HandleShooting()
     {
+        if (!carRb)
+            carRb = transform.parent.GetComponent<Rigidbody2D>();
+        Vector2 vel = Vector2.zero;
         if (cd > 0)
         {
             cd -= Time.deltaTime;
@@ -72,21 +76,20 @@ public class Gunner : MonoBehaviour
         if (cd <= 0 && Input.GetKey(KeyCode.Mouse0))
         {
             cd = fireCooldown;
-            photonView.RPC("RPC_HandleShooting", RpcTarget.AllViaServer, new Vector2(tipTransform.position.x, tipTransform.position.y), transform.rotation, PhotonNetwork.ServerTimestamp);
+            if (carRb)
+            {
+                vel = carRb.velocity;
+            }
+            photonView.RPC("RPC_HandleShooting", RpcTarget.AllViaServer, new Vector2(tipTransform.position.x, tipTransform.position.y), transform.rotation, vel, PhotonNetwork.ServerTimestamp);
         }
     }
 
     [PunRPC]
-    public void RPC_HandleShooting(Vector2 pos, Quaternion rot, int timeInMillis)
+    public void RPC_HandleShooting(Vector2 pos, Quaternion rot, Vector2 origVel, int timeInMillis)
     {
         int deltaTimeInMillis = PhotonNetwork.ServerTimestamp - timeInMillis;
-        Rigidbody2D carRb = transform.parent.GetComponent<Rigidbody2D>();
-        Vector2 delta = Vector2.zero;
-        if (carRb)
-        {
-            float dt = (float)deltaTimeInMillis / 1000;
-            delta = carRb.velocity * dt;
-        }
+        
+        Vector2 delta = origVel * ((float)deltaTimeInMillis / 1000);
 
         bulletPool.SpawnBullet(pos + delta, rot, 50f);
     }
