@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 // using Photon.Pun;
 
@@ -9,7 +10,9 @@ public class GenerateMap : MonoBehaviour
     public List<GameObject> mapTiles = new List<GameObject>();
     public float scale = 10.0f;
     private List<Vector2> positions = new List<Vector2>();
-    
+    public static float tilesPlaced = 0;
+    public static float numTiles;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,8 +26,10 @@ public class GenerateMap : MonoBehaviour
         positions.Add(new Vector2(0, -scale));
         positions.Add(new Vector2(-scale, -scale));
         positions.Add(new Vector2(scale, -scale));
+        numTiles = 9;
         
         PlaceMap();
+        
     }
     
     void PlaceMap()
@@ -58,6 +63,7 @@ public class GenerateMap : MonoBehaviour
             Object.Instantiate(tile, 
             (Vector3)position
             ,randomRotation);
+            tilesPlaced++;
         }
     }
 

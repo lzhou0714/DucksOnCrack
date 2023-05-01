@@ -9,6 +9,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] TMP_InputField roomName;
     [SerializeField] GameObject canvas;
+    [SerializeField] TMP_Text errorText;
 
     RoomOptions options;
 
@@ -30,7 +31,19 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public void Quickplay()
     {
-        PhotonNetwork.JoinRandomOrCreateRoom();
+        PhotonNetwork.JoinRandomRoom();
+    }
+
+    public override void OnJoinRandomFailed(short returnCode, string message)
+    {
+        RoomOptions roomOptions = new RoomOptions();
+        roomOptions.MaxPlayers = 2;
+        PhotonNetwork.CreateRoom(null, roomOptions, null);
+    }
+
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        errorText.text = message;
     }
 
     public override void OnJoinedRoom()

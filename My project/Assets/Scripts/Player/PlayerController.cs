@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] GameObject canvas;
     [SerializeField] GameObject roleSelect;
+    [SerializeField] GameObject gunnerUI;
+    [SerializeField] GameObject driverUI;
 
     void Start()
     {
@@ -40,17 +42,20 @@ public class PlayerController : MonoBehaviour
 
     public void SetRole(int role)
     {
-        return;
-        //if (role == 0)  // Driver
-        //{
-        //    drive.enabled = true;
-        //    gun.enabled = false;
-        //}
-        //else  // Gunner
-        //{
-        //    drive.enabled = false;
-        //    gun.enabled = true;
-        //}
+        if (role == 0)  // Driver
+        {
+            //drive.enabled = true;
+            //gun.enabled = false;
+            driverUI.SetActive(true);
+            gunnerUI.SetActive(false);
+        }
+        else  // Gunner
+        {
+            //drive.enabled = false;
+            //gun.enabled = true;
+            gunnerUI.SetActive(true);
+            driverUI.SetActive(false);
+        }
     }
 
     public void SetGMRole(int role)

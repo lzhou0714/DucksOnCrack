@@ -255,14 +255,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 153675557}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd4fd4d41c7c047499d8259b4ce87a8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   obstacle: {fileID: 7881155610961446306, guid: 2b03364b3f08a4d51bd93e57014362b0, type: 3}
+  numClusters: 1
+  enemies: {fileID: 6207844031647637354, guid: 5ac523b5a08e80e489a1efedfc4d2f30, type: 3}
   radius: 5
-  number: 100
+  number: 20
 --- !u!114 &153675563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -653,6 +655,10 @@ PrefabInstance:
     - target: {fileID: 3767013116803542366, guid: 10985dba1477031449a58cebd9899b69, type: 3}
       propertyPath: m_Name
       value: KIWICAR
+      objectReference: {fileID: 0}
+    - target: {fileID: 3767013116803542366, guid: 10985dba1477031449a58cebd9899b69, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5036609232655524811, guid: 10985dba1477031449a58cebd9899b69, type: 3}
       propertyPath: sceneViewId
