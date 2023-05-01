@@ -106,17 +106,15 @@ public class Gunner : MonoBehaviour
         // HENRY: So we want the same type of prediction for rotation as we have for position.
         // Predict the angle of our gun barrel by calculating the angular velocity (or some other smart way)
 
-        //int deltaTimeInMillis = PhotonNetwork.ServerTimestamp - timeInMillis;
+        int deltaTimeInMillis = PhotonNetwork.ServerTimestamp - timeInMillis;
 
-        ////Debug.Log(origAngularVel);
-        //float angularVelMagnitude = origAngularVel.z;
-        //Vector2 angularVelCalibration = -transform.right * angularVelMagnitude * ((float)deltaTimeInMillis / 1000);
-        //Vector2 delta = origVel * ((float)deltaTimeInMillis / 1000) + angularVelCalibration;
+        //Debug.Log(origAngularVel);
+        float angularVelMagnitude = origAngularVel.z;
+        Vector2 angularVelCalibration = -transform.right * angularVelMagnitude * ((float)deltaTimeInMillis / 1000);
+        Vector2 delta = origVel * ((float)deltaTimeInMillis / 1000) + angularVelCalibration;
 
-        //Quaternion deltaRot = Quaternion.Euler(origAngularVel * ((float)deltaTimeInMillis / 1000));
+        Quaternion deltaRot = Quaternion.Euler(origAngularVel * ((float)deltaTimeInMillis / 1000));
 
-        //bulletPool.SpawnBullet(pos + delta, rot*deltaRot, 50f);
-        bulletPool.SpawnBullet(pos, rot, 50f);
-
+        bulletPool.SpawnBullet(pos + delta, rot*deltaRot, 50f);
     }
 }
