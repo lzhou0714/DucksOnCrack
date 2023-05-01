@@ -24,6 +24,11 @@ public class Vehicle : MonoBehaviour
     [SerializeField] bool singlePlayerOverride;
     bool driving, drifting;
 
+    //Sound effects
+    [SerializeField] AudioSource brakeSound;
+    [SerializeField] AudioSource driveSound;
+    [SerializeField] AudioSource accelerateSound; //added when in boost mode
+
     void Start()
     {
         trfm = transform;
@@ -45,6 +50,11 @@ public class Vehicle : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.T))
         {
             driving = !driving;
+            if (driving) {
+                driveSound.Play();
+            } else {
+                driveSound.Stop();
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.W))
@@ -137,6 +147,7 @@ public class Vehicle : MonoBehaviour
     void Boost()
     {
         rb.velocity = up * boostPower;
+        accelerateSound.Play();
     }
 
     void HandleDrifting()
@@ -169,6 +180,7 @@ public class Vehicle : MonoBehaviour
         }
 
         driftLockTimer = 20;
+        brakeSound.Play();
     }
     void ExitDrift()
     {
@@ -179,5 +191,6 @@ public class Vehicle : MonoBehaviour
         rb.drag = defaultDrag;
         currentAcceleration = defaultAcceleration;
         currentTurnRate = defaultTurnRate;
+        // brakeSound.Stop();
     }
 }
