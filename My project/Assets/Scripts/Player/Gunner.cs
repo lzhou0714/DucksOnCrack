@@ -12,6 +12,7 @@ public class Gunner : MonoBehaviour
     GameObject activeBullet;
     Transform tipTransform;
     Rigidbody2D carRb;
+    Rigidbody2D gunRb;
 
     Transform cameraTrfm;
 
@@ -29,6 +30,7 @@ public class Gunner : MonoBehaviour
         photonView = GetComponent<PhotonView>();
         bulletPool = GetComponentInChildren<BulletPool>();
         tipTransform = transform.GetChild(0);
+        gunRb = GetComponent<Rigidbody2D>();
 
         cameraTrfm = CameraController.cameraTransform;
 
@@ -41,14 +43,6 @@ public class Gunner : MonoBehaviour
         {
             HandleRotation();
             HandleShooting();
-        }
-    }
-
-    private void Update()
-    {
-        if (photonView.IsMine)
-        {
-            cameraTrfm.position = transform.position + Vector3.forward * -10;
         }
     }
 
@@ -67,8 +61,14 @@ public class Gunner : MonoBehaviour
     private void HandleShooting()
     {
         if (!carRb)
-            carRb = transform.parent.GetComponent<Rigidbody2D>();
+        {
+            if(transform.parent)
+            {
+                carRb = transform.parent.GetComponent<Rigidbody2D>();
+            }
+        }
         Vector2 vel = Vector2.zero;
+        float angularVel = gunRb.angularVelocity;
         if (cd > 0)
         {
             cd -= Time.deltaTime;
@@ -81,12 +81,12 @@ public class Gunner : MonoBehaviour
                 vel = carRb.velocity;
             }
             // HENRY: here's the RPC call to shoot, pass in whatever you want to send to server here
-            photonView.RPC("RPC_HandleShooting", RpcTarget.AllViaServer, new Vector2(tipTransform.position.x, tipTransform.position.y), transform.rotation, vel, PhotonNetwork.ServerTimestamp);
+            photonView.RPC("RPC_HandleShooting", RpcTarget.AllViaServer, new Vector2(tipTransform.position.x, tipTransform.position.y), transform.rotation, vel, angularVel, PhotonNetwork.ServerTimestamp);
         }
     }
 
     [PunRPC]
-    public void RPC_HandleShooting(Vector2 pos, Quaternion rot, Vector2 origVel, int timeInMillis)
+    public void RPC_HandleShooting(Vector2 pos, Quaternion rot, Vector2 origVel, float origAngularVel, int timeInMillis)
     {
         // HENRY: So we want the same type of prediction for rotation as we have for position.
         // Predict the angle of our gun barrel by calculating the angular velocity (or some other smart way)
@@ -95,6 +95,8 @@ public class Gunner : MonoBehaviour
         
         Vector2 delta = origVel * ((float)deltaTimeInMillis / 1000);
 
-        bulletPool.SpawnBullet(pos + delta, rot, 50f);
+        Quaternion deltaRot = Quaternion.Euler(transform.forward * origAngularVel * ((float)deltaTimeInMillis / 1000));
+
+        bulletPool.SpawnBullet(pos + delta, rot * deltaRot, 50f);
     }
 }
