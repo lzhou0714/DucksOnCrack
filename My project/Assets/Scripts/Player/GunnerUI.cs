@@ -19,41 +19,41 @@ public class GunnerUI : MonoBehaviour
         Shotgun,
     }
 
-    public void DisplayUI(Weapon weapon)
+    public void DisplayUI(Gunner.WEAPONTYPE weapon)
     {
         if (!gameObject.activeSelf)
             return;
         switch (weapon)
         {
-            case Weapon.Bow:
+            case Gunner.WEAPONTYPE.BOW:
                 bowUI.SetActive(true);
                 sniperUI.SetActive(false);
                 dualSMGUI.SetActive(false);
                 assaultUI.SetActive(false);
                 shotgunUI.SetActive(false);
                 break;
-            case Weapon.Sniper:
+            case Gunner.WEAPONTYPE.BOLTACTION:
                 bowUI.SetActive(false);
                 sniperUI.SetActive(true);
                 dualSMGUI.SetActive(false);
                 assaultUI.SetActive(false);
                 shotgunUI.SetActive(false);
                 break;
-            case Weapon.DualSMG:
+            case Gunner.WEAPONTYPE.AKIMBOSMG:
                 bowUI.SetActive(false);
                 sniperUI.SetActive(false);
                 dualSMGUI.SetActive(true);
                 assaultUI.SetActive(false);
                 shotgunUI.SetActive(false);
                 break;
-            case Weapon.Assault:
+            case Gunner.WEAPONTYPE.ASSAULTRIFLE:
                 bowUI.SetActive(false);
                 sniperUI.SetActive(false);
                 dualSMGUI.SetActive(false);
                 assaultUI.SetActive(true);
                 shotgunUI.SetActive(false);
                 break;
-            case Weapon.Shotgun:
+            case Gunner.WEAPONTYPE.LASER:  // Supposed to be shotgun
                 bowUI.SetActive(false);
                 sniperUI.SetActive(false);
                 dualSMGUI.SetActive(false);
