@@ -13,6 +13,7 @@ public class Gunner : MonoBehaviour
     Transform tipTransform;
     Rigidbody2D carRb;
     Rigidbody2D gunRb;
+    GunnerUI gunUI;
 
     Transform cameraTrfm;
 
@@ -35,7 +36,7 @@ public class Gunner : MonoBehaviour
         bulletPool = GetComponentInChildren<BulletPool>();
         tipTransform = transform.GetChild(0);
         gunRb = GetComponent<Rigidbody2D>();
-
+        gunUI = FindObjectOfType<GunnerUI>();
         cameraTrfm = CameraController.cameraTransform;
 
     }
