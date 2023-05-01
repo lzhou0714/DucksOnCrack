@@ -215,6 +215,6 @@ MonoBehaviour:
   Death:
     m_PersistentCalls:
       m_Calls: []
-  moveSpeed: 1.3
+  moveSpeed: 3
   followRange: 20
   trackedPlayer: {fileID: 0}
