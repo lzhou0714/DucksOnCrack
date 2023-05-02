@@ -21,7 +21,7 @@ public class EnemyNetworkHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (man.GameStarted() && Time.time % 5 <= Time.deltaTime)
+        if (man.GameStarted() && Time.time % 3 <= Time.deltaTime)
         {
             SpawnEnemy();
         } 
@@ -29,6 +29,6 @@ public class EnemyNetworkHandler : MonoBehaviour
 
     void SpawnEnemy()
     {
-        PhotonNetwork.Instantiate(enemy.name, new Vector3(Random.Range(-5f, 5f), Random.Range(-5f, 5f)), Quaternion.identity);
+        PhotonNetwork.Instantiate(enemy.name, new Vector3(Random.Range(-50f, 50f), Random.Range(-50f, 50f)), Quaternion.identity);
     }
 }
