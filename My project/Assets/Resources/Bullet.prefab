@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7982219406467621600}
   - component: {fileID: 7406552258940125135}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Square (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4826481253217608867}
   - component: {fileID: 3586669470772500798}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BOLTACTION
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 4266163875514855369}
   - component: {fileID: 3219293751623439357}
   - component: {fileID: 6134246657378816351}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4992,7 +4992,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2525794803694139526}
   - component: {fileID: 3330564989016901086}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ASSAULTRIFLE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5077,7 +5077,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5914042596434286673}
   - component: {fileID: 514216950872134239}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Triangle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5161,7 +5161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 27385920816383099}
   - component: {fileID: 7273850244691771388}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: AKIMBOSMG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5247,7 +5247,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1872498398838929818}
   - component: {fileID: 7837473851068967807}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Square (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5331,7 +5331,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1124805632291889430}
   - component: {fileID: 529311882058739171}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SHOTGUN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5417,7 +5417,7 @@ GameObject:
   - component: {fileID: 5137623249953346081}
   - component: {fileID: 513652969287262615}
   - component: {fileID: 6293758147478350753}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10230,7 +10230,7 @@ GameObject:
   - component: {fileID: 4531691365918473109}
   - component: {fileID: 864626491250754991}
   - component: {fileID: 6507074943806968864}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15042,7 +15042,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4920009587710799714}
   - component: {fileID: 500605040910258615}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BOW
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15128,7 +15128,7 @@ GameObject:
   - component: {fileID: 7472600807856529802}
   - component: {fileID: 4081895866001427681}
   - component: {fileID: 595475055633867867}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19940,7 +19940,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3764355045677449034}
   - component: {fileID: 6012347587238027994}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LEVERACTION
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20026,7 +20026,7 @@ GameObject:
   - component: {fileID: 9196961160939551013}
   - component: {fileID: 8683715624874929239}
   - component: {fileID: 5889205810608809720}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24838,7 +24838,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7762502176273185443}
   - component: {fileID: 6628273977839543604}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Square (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24923,7 +24923,7 @@ GameObject:
   - component: {fileID: 3448071847378996542}
   - component: {fileID: 7767748650891471188}
   - component: {fileID: 6871002921166628648}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29735,7 +29735,7 @@ GameObject:
   m_Component:
   - component: {fileID: 70031016739316237}
   - component: {fileID: 4508938019051713676}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29819,7 +29819,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7173064910945943072}
   - component: {fileID: 8179162508347015378}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DEFAULT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29907,7 +29907,7 @@ GameObject:
   - component: {fileID: 8367211586353961292}
   - component: {fileID: 5680064295507133476}
   - component: {fileID: 2304167144273665800}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30064,7 +30064,7 @@ GameObject:
   - component: {fileID: 9025908603582623861}
   - component: {fileID: 3317360359660146532}
   - component: {fileID: 3129374784941679689}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34877,7 +34877,7 @@ GameObject:
   - component: {fileID: 6347487356233832395}
   - component: {fileID: 236589613270464391}
   - component: {fileID: 2197811279884028450}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39689,7 +39689,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8085429990258671914}
   - component: {fileID: 7245707941281434812}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LASER
   m_TagString: Untagged
   m_Icon: {fileID: 0}
