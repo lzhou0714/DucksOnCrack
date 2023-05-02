@@ -43,7 +43,7 @@ public class Gunner : MonoBehaviour
     void Start()
     {
         barrelTransform = transform.GetChild(2);
-        availableWeapons = new WEAPONTYPE[] { WEAPONTYPE.BOW, WEAPONTYPE.LEVERACTION, WEAPONTYPE.SHOTGUN, WEAPONTYPE.LASER };
+        availableWeapons = new WEAPONTYPE[] { WEAPONTYPE.BOW, WEAPONTYPE.ASSAULTRIFLE, WEAPONTYPE.AKIMBOSMG, WEAPONTYPE.BOLTACTION };
         weaponOverheats = new int[] { 0, 0, 0, 0 };
         UpdateWeapon(0);
 
@@ -152,6 +152,12 @@ public class Gunner : MonoBehaviour
     }
     private void HandleWeaponSelect()
     {
+        if (!gunUI)
+        {
+            gunUI = FindObjectOfType<GunnerUI>();
+            // Debug.Log(gunUI.gameObject.name);
+        }
+
         if (Input.GetKey(KeyCode.Q)) {
             if (availableWeapons[0] != WEAPONTYPE.NULL)
             {
@@ -187,6 +193,8 @@ public class Gunner : MonoBehaviour
         selectedWeaponIndex = index;
         barrelTransform.Find(type.ToString()).gameObject.SetActive(true);
         selectedWeaponData = WeaponTypes.Instance.GetData(type);
+        if (gunUI)
+            gunUI.DisplayUI(type);
     }
     private void AddWeaponOverheat()
     {
