@@ -202,7 +202,10 @@ public class Gunner : MonoBehaviour
     }
     private void DecreaseWeaponOverheats()
     {
-        GunnerUI.Instance.UpdateOverheatBar(weaponOverheats[selectedWeaponIndex] / selectedWeaponData.overheatMax);
+        if (GunnerUI.Instance != null)
+        {
+            GunnerUI.Instance.UpdateOverheatBar(weaponOverheats[selectedWeaponIndex] / selectedWeaponData.overheatMax);
+        }
         for (int i = 0; i < 4; i++)
         {
             weaponOverheats[i] = Mathf.Max(weaponOverheats[i] - WeaponTypes.Instance.weaponData[(int)availableWeapons[i]].overheatDecay, 0);

@@ -86,9 +86,12 @@ public class Vehicle : MonoBehaviour
                 EnterDrift();
             }
         }
-
+        if (DriverUI.Instance != null)
+        {
+            DriverUI.Instance.UpdateSpeedometer(rb.velocity.magnitude);
+        }
         //velocityBarTrfm.localScale = new Vector3(rb.velocity.magnitude, .3f, 1);
-        
+
     }
 
     void Accelerate()

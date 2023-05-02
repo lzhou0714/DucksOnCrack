@@ -73,6 +73,8 @@ public class GunnerUI : MonoBehaviour
 
     public void UpdateOverheatBar(float fillAmount)
     {
+        if (!gameObject.activeSelf)
+            return;
         overheatBar.fillAmount = fillAmount;
     }
 }

@@ -10245,6 +10245,9 @@ MonoBehaviour:
   velocityBarTrfm: {fileID: 0}
   rb: {fileID: 2502616430490727285}
   singlePlayerOverride: 1
+  brakeSound: {fileID: 0}
+  driveSound: {fileID: 0}
+  accelerateSound: {fileID: 0}
 --- !u!61 &2242238405814165329
 BoxCollider2D:
   m_ObjectHideFlags: 0
