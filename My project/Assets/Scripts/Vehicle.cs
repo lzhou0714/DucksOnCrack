@@ -216,6 +216,10 @@ public class Vehicle : HPEntity
     public void RPC_DamagePlayer(int amt)
     {
         TakeDamage(amt);
+        if (DriverUI.Instance != null)
+        {
+            DriverUI.Instance.UpdateHealthBar(HP / maxHP);
+        }
         if (HP <= 0 && PhotonNetwork.IsMasterClient)
         {
             // Handle game over (in gamemanager)
