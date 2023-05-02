@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        txt.text = "Current players: " + gm.playerCount;
+        txt.text = "Current players: " + PhotonNetwork.CurrentRoom.PlayerCount;
     }
 
     public void SetRole(int role)
