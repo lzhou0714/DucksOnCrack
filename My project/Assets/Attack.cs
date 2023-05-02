@@ -9,7 +9,7 @@ public class Attack : MonoBehaviour
     {
         if (col.gameObject.layer == 7 && PhotonNetwork.IsMasterClient)
         {
-            col.GetComponent<HPEntity>().TakeDamage(10);
+            col.GetComponent<Vehicle>().DamagePlayer(10);
         }
     }
 }

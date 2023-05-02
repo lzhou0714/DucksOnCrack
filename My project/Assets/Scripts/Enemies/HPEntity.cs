@@ -21,7 +21,7 @@ public class HPEntity : MonoBehaviour
 
     }
 
-    public void TakeDamage(int amount)
+    public float TakeDamage(int amount)
     {
         HP -= amount;
         if (HP <= 0)
@@ -35,7 +35,9 @@ public class HPEntity : MonoBehaviour
                 PhotonNetwork.Destroy(gameObject);  // This assumes the current object is networked! Otherwise will not work!
                                                     // Destroy(gameObject);
             }
+            return 0;
         }
+        return ((float)HP) / maxHP;
     } 
 
     public void Heal(int amount, bool allowOverheal = false)
