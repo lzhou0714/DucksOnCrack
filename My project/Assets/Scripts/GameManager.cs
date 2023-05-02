@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     Player client;
     Player host;
-    int playerCount = 0;
+    public int playerCount = 0;
 
     int masterRole = 0;
     bool gameStarted = false;
@@ -125,6 +125,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 gunPv.TransferOwnership(host);
                 Debug.Log("Transferring car");
             }
+            PhotonNetwork.CurrentRoom.IsOpen = false;
         }
         ak.GetComponent<TurretHandler>().ToParent(pvid);
         Debug.Log("Game Started! Master role: " + masterRole);

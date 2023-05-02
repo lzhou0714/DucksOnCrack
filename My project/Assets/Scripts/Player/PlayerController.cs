@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject roleSelect;
     [SerializeField] GameObject gunnerUI;
     [SerializeField] GameObject driverUI;
+    [SerializeField] TMP_Text txt;
 
     void Start()
     {
@@ -38,6 +40,11 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Disabling role select, not master client");
             roleSelect.SetActive(false);
         }
+    }
+
+    private void Update()
+    {
+        txt.text = "Current players: " + gm.playerCount;
     }
 
     public void SetRole(int role)
