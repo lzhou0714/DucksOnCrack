@@ -160,7 +160,7 @@ public class Vehicle : HPEntity
     void Boost()
     {
         rb.velocity = up * boostPower;
-        accelerateSound.Play();
+        //accelerateSound.Play();
     }
 
     void HandleDrifting()
