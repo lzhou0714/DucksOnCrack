@@ -5,6 +5,7 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Photon.Pun;
 
 // using Photon.Pun;
 
@@ -33,9 +34,6 @@ public class GenerateMap : MonoBehaviour
         numTiles = 9;
 
         PlaceMap();
-
-
-
     }
     
     void PlaceMap()
@@ -63,19 +61,19 @@ public class GenerateMap : MonoBehaviour
             mapTiles.RemoveAt((int)TileInd);
             
             
-            // PhotonNetwork.Instantiate(mapTiles[(int)TileInd].name, 
-            //     (Vector3)position
-            //     ,Quaternion.identity);
-            GameObject tileX  = Object.Instantiate(tile, 
-            (Vector3)position
-            ,randomRotation);
+            GameObject tileX = PhotonNetwork.Instantiate(mapTiles[(int)TileInd].name, 
+                (Vector3)position
+                ,Quaternion.identity);
+            // GameObject tileX  = Object.Instantiate(tile, 
+            // (Vector3)position
+            // ,randomRotation);
             tilesPlaced++;
 
             tileX.layer = 10;
 
         }
 
-        Object.Instantiate(bounds, Vector3.zero, quaternion.identity);
+        PhotonNetwork.Instantiate(bounds.name, Vector3.zero, quaternion.identity);
     }
 
     // Update is called once per frame
