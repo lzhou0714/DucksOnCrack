@@ -26,9 +26,15 @@ public class Vehicle : HPEntity
     bool driving, drifting;
 
     //Sound effects
-    [SerializeField] AudioSource brakeSound;
-    [SerializeField] AudioSource driveSound;
-    [SerializeField] AudioSource accelerateSound; //added when in boost mode
+    [SerializeField] AudioSource brakeSource;
+    [SerializeField] AudioSource driveSource;
+    [SerializeField] AudioSource accelerateSource;
+    [SerializeField] AudioClip brakeSound;
+    [SerializeField] AudioClip driveSound;
+    [SerializeField] AudioClip accelerateSound; //added when in boost mode
+
+    // Text:
+    [SerializeField] GameObject text;
 
     new void Start()
     {
@@ -42,6 +48,13 @@ public class Vehicle : HPEntity
         currentTurnRate = defaultTurnRate;
         gm = GetComponent<GameManager>();
         if (!singlePlayerOverride) { pv = GetComponent<PhotonView>(); }
+
+        text = transform.GetChild(3).gameObject;
+
+        brakeSource.clip = brakeSound;
+        driveSource.clip = driveSound;
+        accelerateSource.clip = accelerateSound;
+
     }
 
     private void Update()
@@ -55,9 +68,12 @@ public class Vehicle : HPEntity
         {
             driving = !driving;
             if (driving) {
-                driveSound.Play();
+                brakeSource.Play();
+                brakeSource.loop = true;
+                text.SetActive(false);
             } else {
-                driveSound.Stop();
+                brakeSource.Stop();
+                text.SetActive(true);
             }
         }
 
@@ -160,7 +176,7 @@ public class Vehicle : HPEntity
     void Boost()
     {
         rb.velocity = up * boostPower;
-        //accelerateSound.Play();
+        accelerateSource.Play();
     }
 
     void HandleDrifting()
@@ -193,7 +209,7 @@ public class Vehicle : HPEntity
         }
 
         driftLockTimer = 20;
-        brakeSound.Play();
+        brakeSource.Play();
     }
     void ExitDrift()
     {
@@ -204,7 +220,7 @@ public class Vehicle : HPEntity
         rb.drag = defaultDrag;
         currentAcceleration = defaultAcceleration;
         currentTurnRate = defaultTurnRate;
-        // brakeSound.Stop();
+        brakeSource.Stop();
     }
 
     public void DamagePlayer(int amount)
@@ -216,6 +232,7 @@ public class Vehicle : HPEntity
     public void RPC_DamagePlayer(int amt)
     {
         TakeDamage(amt);
+        Debug.Log("hello");
         if (DriverUI.Instance != null)
         {
             DriverUI.Instance.UpdateHealthBar(HP / maxHP);
