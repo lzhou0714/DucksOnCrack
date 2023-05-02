@@ -6,7 +6,7 @@ using Photon.Pun;
 
 public class HPEntity : MonoBehaviour
 {
-    public int HP, maxHP;
+    public float HP, maxHP;
     [SerializeField] bool customDeath;
     public UnityEvent Death;
 

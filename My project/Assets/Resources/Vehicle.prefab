@@ -9924,9 +9924,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_SortingOrder: 2
+  m_Sprite: {fileID: 21300000, guid: ab1566c3855002f44a0a04eb2ad3594b, type: 3}
+  m_Color: {r: 1, g: 0.90134895, b: 0.740566, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -10230,9 +10230,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8dcb136a07fb254ca9c78cfc8d2abb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 200
-  maxHP: 200
-  customDeath: 1
+  HP: 0
+  maxHP: 0
+  customDeath: 0
   Death:
     m_PersistentCalls:
       m_Calls: []
@@ -10248,7 +10248,7 @@ MonoBehaviour:
   tireTrails:
   - {fileID: 5871250327308251222}
   - {fileID: 8020050023778234463}
-  velocityBarTrfm: {fileID: 0}
+  tires: []
   rb: {fileID: 2502616430490727285}
   singlePlayerOverride: 1
   brakeSound: {fileID: 0}
