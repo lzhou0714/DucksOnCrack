@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     Player client;
     Player host;
-    int playerCount = 0;
+    public int playerCount = 0;
 
     int masterRole = 0;
     bool gameStarted = false;
