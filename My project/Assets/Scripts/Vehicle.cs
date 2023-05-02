@@ -18,6 +18,7 @@ public class Vehicle : HPEntity
 
     Transform trfm;
     public Rigidbody2D rb;
+    GameManager gm;
 
     Vector2 up;
 
@@ -39,6 +40,7 @@ public class Vehicle : HPEntity
         rb.drag = defaultDrag;
         currentAcceleration = defaultAcceleration;
         currentTurnRate = defaultTurnRate;
+        gm = GetComponent<GameManager>();
         if (!singlePlayerOverride) { pv = GetComponent<PhotonView>(); }
     }
 
@@ -203,5 +205,21 @@ public class Vehicle : HPEntity
         currentAcceleration = defaultAcceleration;
         currentTurnRate = defaultTurnRate;
         // brakeSound.Stop();
+    }
+
+    public void DamagePlayer(int amount)
+    {
+        pv.RPC("RPC_DamagePlayer", RpcTarget.All, amount);
+    }
+
+    [PunRPC]
+    public void RPC_DamagePlayer(int amt)
+    {
+        TakeDamage(amt);
+        if (HP <= 0 && PhotonNetwork.IsMasterClient)
+        {
+            // Handle game over (in gamemanager)
+            gm.GameOver();
+        }
     }
 }
