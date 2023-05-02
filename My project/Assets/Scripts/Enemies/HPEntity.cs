@@ -27,13 +27,14 @@ public class HPEntity : MonoBehaviour
         if (HP <= 0)
         {
             Debug.Log("Died");
-        }
-        if (!customDeath)
-        {
-            //INstantiate death FX
-            Death.Invoke();
-            PhotonNetwork.Destroy(gameObject);  // This assumes the current object is networked! Otherwise will not work!
-            // Destroy(gameObject);
+
+            if (!customDeath)
+            {
+                //INstantiate death FX
+                Death.Invoke();
+                PhotonNetwork.Destroy(gameObject);  // This assumes the current object is networked! Otherwise will not work!
+                                                    // Destroy(gameObject);
+            }
         }
     } 
 

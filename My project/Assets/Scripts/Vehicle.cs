@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class Vehicle : MonoBehaviour
+public class Vehicle : HPEntity
 {
     [SerializeField] float defaultAcceleration, driftAcceleration;
     [SerializeField] float defaultTurnRate, driftTurnRate, turnSpd, turnRecalibration;
@@ -12,7 +12,7 @@ public class Vehicle : MonoBehaviour
     Transform cameraTrfm;
     [SerializeField] TrailRenderer[] tireTrails;
 
-    [SerializeField] Transform velocityBarTrfm;
+    [SerializeField] Transform[] tires;
 
     PhotonView pv;
 
@@ -111,6 +111,7 @@ public class Vehicle : MonoBehaviour
         }
     }
 
+    Vector3 tireAngle;
     void Steer()
     {
         if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
@@ -131,6 +132,11 @@ public class Vehicle : MonoBehaviour
         }
 
         trfm.Rotate(Vector3.forward * activeTurnRate);
+
+        tireAngle.z = activeTurnRate * 10;
+        if (drifting) { tireAngle.z *= -1; }
+        tires[0].localEulerAngles = tireAngle;
+        tires[1].localEulerAngles = tireAngle;
 
         if (activeTurnRate > 0)
         {
