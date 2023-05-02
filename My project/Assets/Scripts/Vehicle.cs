@@ -29,8 +29,10 @@ public class Vehicle : HPEntity
     [SerializeField] AudioSource driveSound;
     [SerializeField] AudioSource accelerateSound; //added when in boost mode
 
-    void Start()
+    new void Start()
     {
+        base.Start();
+
         trfm = transform;
         rb = GetComponent<Rigidbody2D>();
         cameraTrfm = CameraController.cameraTransform;
