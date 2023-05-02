@@ -11,12 +11,12 @@ public class PlaceEnemies : MonoBehaviour
     private void FixedUpdate()
     {
         
-        // if (Generate.timer > 2)
-        // {
-        //     gameObject.layer = 6; //enemy hurtbox
-        //     GetComponent<CircleCollider2D>().radius = 0.5f;
-        //     Destroy(GetComponent<PlaceEnemies>());
-        // }
+        if (Generate.timer > 2)
+        {
+            gameObject.layer = 6; //enemy hurtbox
+            GetComponent<CircleCollider2D>().radius = 0.5f;
+            Destroy(GetComponent<PlaceEnemies>());
+        }
     }
 
     private void OnTriggerStay2D(Collider2D other)

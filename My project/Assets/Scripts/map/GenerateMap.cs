@@ -1,18 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
+
 // using Photon.Pun;
 
 public class GenerateMap : MonoBehaviour
 {
     public List<GameObject> mapTiles = new List<GameObject>();
+    [SerializeField] private GameObject bounds;
     public float scale = 10.0f;
     private List<Vector2> positions = new List<Vector2>();
     public static float tilesPlaced = 0;
     public static float numTiles;
-
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -27,9 +31,11 @@ public class GenerateMap : MonoBehaviour
         positions.Add(new Vector2(-scale, -scale));
         positions.Add(new Vector2(scale, -scale));
         numTiles = 9;
-        
+
         PlaceMap();
-        
+
+
+
     }
     
     void PlaceMap()
@@ -42,7 +48,7 @@ public class GenerateMap : MonoBehaviour
         // float TileInd = Random.Range(0.0f, mapTiles.Length);
         
         Debug.Log("ad");
-        for (int i = mapTiles.Count-1; i >=0; i--)
+        for (int i = 8; i >=0; i--)
         {
             
             PosInd = Random.Range(0.0f, i);
@@ -60,11 +66,16 @@ public class GenerateMap : MonoBehaviour
             // PhotonNetwork.Instantiate(mapTiles[(int)TileInd].name, 
             //     (Vector3)position
             //     ,Quaternion.identity);
-            Object.Instantiate(tile, 
+            GameObject tileX  = Object.Instantiate(tile, 
             (Vector3)position
             ,randomRotation);
             tilesPlaced++;
+
+            tileX.layer = 10;
+
         }
+
+        Object.Instantiate(bounds, Vector3.zero, quaternion.identity);
     }
 
     // Update is called once per frame
