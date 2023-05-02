@@ -12,7 +12,7 @@ public class Vehicle : HPEntity
     Transform cameraTrfm;
     [SerializeField] TrailRenderer[] tireTrails;
 
-    [SerializeField] Transform velocityBarTrfm;
+    [SerializeField] Transform[] tires;
 
     PhotonView pv;
 
@@ -88,9 +88,12 @@ public class Vehicle : HPEntity
                 EnterDrift();
             }
         }
-
+        if (DriverUI.Instance != null)
+        {
+            DriverUI.Instance.UpdateSpeedometer(rb.velocity.magnitude);
+        }
         //velocityBarTrfm.localScale = new Vector3(rb.velocity.magnitude, .3f, 1);
-        
+
     }
 
     void Accelerate()
@@ -113,6 +116,7 @@ public class Vehicle : HPEntity
         }
     }
 
+    Vector3 tireAngle;
     void Steer()
     {
         if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
@@ -133,6 +137,11 @@ public class Vehicle : HPEntity
         }
 
         trfm.Rotate(Vector3.forward * activeTurnRate);
+
+        tireAngle.z = activeTurnRate * 10;
+        if (drifting) { tireAngle.z *= -1; }
+        tires[0].localEulerAngles = tireAngle;
+        tires[1].localEulerAngles = tireAngle;
 
         if (activeTurnRate > 0)
         {
