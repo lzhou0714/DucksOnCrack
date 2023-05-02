@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -67,6 +68,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         pv.RPC("RPC_SetMasterRole", RpcTarget.All, role);
     }
 
+    public void GameOver()
+    {
+        pv.RPC("RPC_GameOver", RpcTarget.All);
+    }
+
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         if (newPlayer.IsMasterClient)
@@ -122,6 +128,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         ak.GetComponent<TurretHandler>().ToParent(pvid);
         Debug.Log("Game Started! Master role: " + masterRole);
+    }
+
+    [PunRPC]
+    public void RPC_GameOver()
+    {
+        SceneManager.LoadScene("GameOver");
     }
 
     #endregion

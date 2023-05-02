@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class Vehicle : MonoBehaviour
+public class Vehicle : HPEntity
 {
     [SerializeField] float defaultAcceleration, driftAcceleration;
     [SerializeField] float defaultTurnRate, driftTurnRate, turnSpd, turnRecalibration;
@@ -12,12 +12,13 @@ public class Vehicle : MonoBehaviour
     Transform cameraTrfm;
     [SerializeField] TrailRenderer[] tireTrails;
 
-    [SerializeField] Transform velocityBarTrfm;
+    [SerializeField] Transform[] tires;
 
     PhotonView pv;
 
     Transform trfm;
     public Rigidbody2D rb;
+    GameManager gm;
 
     Vector2 up;
 
@@ -29,14 +30,17 @@ public class Vehicle : MonoBehaviour
     [SerializeField] AudioSource driveSound;
     [SerializeField] AudioSource accelerateSound; //added when in boost mode
 
-    void Start()
+    new void Start()
     {
+        base.Start();
+
         trfm = transform;
         rb = GetComponent<Rigidbody2D>();
         cameraTrfm = CameraController.cameraTransform;
         rb.drag = defaultDrag;
         currentAcceleration = defaultAcceleration;
         currentTurnRate = defaultTurnRate;
+        gm = GetComponent<GameManager>();
         if (!singlePlayerOverride) { pv = GetComponent<PhotonView>(); }
     }
 
@@ -86,9 +90,12 @@ public class Vehicle : MonoBehaviour
                 EnterDrift();
             }
         }
-
+        if (DriverUI.Instance != null)
+        {
+            DriverUI.Instance.UpdateSpeedometer(rb.velocity.magnitude);
+        }
         //velocityBarTrfm.localScale = new Vector3(rb.velocity.magnitude, .3f, 1);
-        
+
     }
 
     void Accelerate()
@@ -111,6 +118,7 @@ public class Vehicle : MonoBehaviour
         }
     }
 
+    Vector3 tireAngle;
     void Steer()
     {
         if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
@@ -131,6 +139,11 @@ public class Vehicle : MonoBehaviour
         }
 
         trfm.Rotate(Vector3.forward * activeTurnRate);
+
+        tireAngle.z = activeTurnRate * 10;
+        if (drifting) { tireAngle.z *= -1; }
+        tires[0].localEulerAngles = tireAngle;
+        tires[1].localEulerAngles = tireAngle;
 
         if (activeTurnRate > 0)
         {
@@ -192,5 +205,21 @@ public class Vehicle : MonoBehaviour
         currentAcceleration = defaultAcceleration;
         currentTurnRate = defaultTurnRate;
         // brakeSound.Stop();
+    }
+
+    public void DamagePlayer(int amount)
+    {
+        pv.RPC("RPC_DamagePlayer", RpcTarget.All, amount);
+    }
+
+    [PunRPC]
+    public void RPC_DamagePlayer(int amt)
+    {
+        TakeDamage(amt);
+        if (HP <= 0 && PhotonNetwork.IsMasterClient)
+        {
+            // Handle game over (in gamemanager)
+            gm.GameOver();
+        }
     }
 }
